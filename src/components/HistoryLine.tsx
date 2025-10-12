@@ -1,7 +1,7 @@
 import React from "react";
 import { Zap } from "lucide-react";
-import { themes } from "../../themes";
-import type { ThemeKey } from "../../themes";
+import { themes } from "../lib/themes";
+import type { ThemeKey } from "../lib/themes";
 
 interface HistoryEntry {
   command?: string;

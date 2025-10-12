@@ -1,7 +1,7 @@
 import React from "react";
 import { Terminal, Sparkles } from "lucide-react";
-import { themes } from "../../themes";
-import type { ThemeKey } from "../../themes";
+import { themes } from "../lib/themes";
+import type { ThemeKey } from "../lib/themes";
 
 interface TerminalHeaderProps {
   currentTheme: (typeof themes)[ThemeKey];

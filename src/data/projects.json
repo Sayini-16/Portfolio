@@ -1,0 +1,63 @@
+{
+  "title": "Featured Projects",
+  "projects": [
+    {
+      "title": "AI Task Manager Pro",
+      "description": "Smart productivity suite using ML to optimize workflows",
+      "details": [
+        "Auto-prioritization with 95% accuracy",
+        "Natural language processing for task creation",
+        "50K+ active users, 4.8★ rating"
+      ],
+      "tech": "React, Python, TensorFlow, FastAPI, PostgreSQL",
+      "links": [
+        { "name": "Live", "url": "#" },
+        { "name": "GitHub", "url": "#" },
+        { "name": "Case Study", "url": "#" }
+      ]
+    },
+    {
+      "title": "Real-Time Collaboration Hub",
+      "description": "Enterprise-grade platform for distributed teams",
+      "details": [
+        "WebSocket-based real-time editing",
+        "End-to-end encryption",
+        "Serving Fortune 500 companies"
+      ],
+      "tech": "Next.js, Node.js, Socket.io, Redis, MongoDB",
+      "links": [
+        { "name": "Live", "url": "#" },
+        { "name": "GitHub", "url": "#" }
+      ]
+    },
+    {
+      "title": "E-Commerce Analytics Dashboard",
+      "description": "Comprehensive business intelligence platform",
+      "details": [
+        "Real-time sales tracking and predictions",
+        "Custom report generation with AI insights",
+        "Reduced decision time by 70%"
+      ],
+      "tech": "Vue.js, GraphQL, Python, AWS Lambda",
+      "links": [
+        { "name": "Demo", "url": "#" },
+        { "name": "Documentation", "url": "#" }
+      ]
+    },
+    {
+      "title": "Open Source UI Library",
+      "description": "Modern component library with 2K+ GitHub stars",
+      "details": [
+        "100+ customizable components",
+        "Full TypeScript support",
+        "Used by 500+ projects"
+      ],
+      "tech": "React, TypeScript, Storybook, Rollup",
+      "links": [
+        { "name": "GitHub", "url": "#" },
+        { "name": "NPM", "url": "#" },
+        { "name": "Docs", "url": "#" }
+      ]
+    }
+  ]
+}

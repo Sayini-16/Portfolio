@@ -1,16 +1,26 @@
 import { themes } from './themes';
 import type { ThemeKey } from './themes';
+import aboutData from '../data/about.json';
+import projectsData from '../data/projects.json';
+import skillsData from '../data/skills.json';
 
-type CommandContext = {
+import { HistoryEntry } from '../hooks/useTerminal';
+
+export type CommandOutput = {
+  type: string;
+  content: string;
+};
+
+export type CommandContext = {
   commandHistory: string[];
   theme: ThemeKey;
   setTheme: (theme: ThemeKey) => void;
-  setHistory: (history: any) => void;
+  setHistory: (history: HistoryEntry[]) => void;
 };
 
 export type Command = {
   description: string;
-  execute: (context: CommandContext, args?: string) => any;
+  execute: (context: CommandContext, args?: string) => CommandOutput | null;
 };
 
 export type CommandKey =
@@ -69,86 +79,50 @@ export const commands: Record<CommandKey, Command> = {
     description: 'Learn about me',
     execute: () => ({
       type: 'ai',
-      content: "Hey there! 👋 I'm a passionate Full Stack Developer and creative problem solver with 5+ years of experience building scalable web applications.\n\nWhat drives me? I love the intersection of elegant code and beautiful design. Whether it's architecting a microservices backend or crafting pixel-perfect UIs, I approach every challenge with enthusiasm and attention to detail.\n\nMy superpower is turning complex requirements into simple, intuitive solutions. I've led teams, mentored junior developers, and shipped products used by thousands of users. But what really excites me is continuous learning - there's always a new technology to explore or a better way to solve a problem.\n\nWhen I'm not coding, you'll find me contributing to open source, writing technical blogs, or experimenting with AI and machine learning. I believe in building things that matter and making the web a better place, one line of code at a time."
+      content: aboutData.content
     })
   },
   projects: {
     description: 'View featured projects',
-    execute: () => ({
-      type: 'list',
-      content: [
-        '',
-        '🚀 Featured Projects:',
-        '',
-        '1. AI Task Manager Pro',
-        '   Smart productivity suite using ML to optimize workflows',
-        '   • Auto-prioritization with 95% accuracy',
-        '   • Natural language processing for task creation',
-        '   • 50K+ active users, 4.8★ rating',
-        '   Tech: React, Python, TensorFlow, FastAPI, PostgreSQL',
-        '   Links: [Live] [GitHub] [Case Study]',
-        '',
-        '2. Real-Time Collaboration Hub',
-        '   Enterprise-grade platform for distributed teams',
-        '   • WebSocket-based real-time editing',
-        '   • End-to-end encryption',
-        '   • Serving Fortune 500 companies',
-        '   Tech: Next.js, Node.js, Socket.io, Redis, MongoDB',
-        '   Links: [Live] [GitHub]',
-        '',
-        '3. E-Commerce Analytics Dashboard',
-        '   Comprehensive business intelligence platform',
-        '   • Real-time sales tracking and predictions',
-        '   • Custom report generation with AI insights',
-        '   • Reduced decision time by 70%',
-        '   Tech: Vue.js, GraphQL, Python, AWS Lambda',
-        '   Links: [Demo] [Documentation]',
-        '',
-        '4. Open Source UI Library',
-        '   Modern component library with 2K+ GitHub stars',
-        '   • 100+ customizable components',
-        '   • Full TypeScript support',
-        '   • Used by 500+ projects',
-        '   Tech: React, TypeScript, Storybook, Rollup',
-        '   Links: [GitHub] [NPM] [Docs]',
-        ''
-      ].join('\n')
-    })
+    execute: () => {
+      const content = projectsData.projects.map((p, i) =>
+        [
+          `${i + 1}. ${p.title}`,
+          `   ${p.description}`,
+          ...p.details.map(d => `   • ${d}`),
+          `   Tech: ${p.tech}`,
+          `   Links: ${p.links.map(l => `[${l.name}]`).join(' ')}`,
+        ].join('\n')
+      ).join('\n\n');
+
+      return {
+        type: 'list',
+        content: `\n🚀 ${projectsData.title}:\n\n${content}`
+      };
+    }
   },
   skills: {
     description: 'View technical skills',
-    execute: () => ({
-      type: 'progress',
-      content: [
-        '',
-        '💻 Technical Skills:',
-        '',
-        'Frontend Development',
-        '████████████████████ 95%',
-        'React, Next.js, Vue, TypeScript, Tailwind CSS',
-        '',
-        'Backend Development',
-        '███████████████████░ 90%',
-        'Node.js, Python, FastAPI, GraphQL, REST APIs',
-        '',
-        'Databases & Caching',
-        '██████████████████░░ 88%',
-        'PostgreSQL, MongoDB, Redis, Elasticsearch',
-        '',
-        'DevOps & Cloud',
-        '████████████████░░░░ 85%',
-        'AWS, Docker, Kubernetes, CI/CD, Terraform',
-        '',
-        'AI & Machine Learning',
-        '███████████████░░░░░ 78%',
-        'TensorFlow, PyTorch, scikit-learn, NLP',
-        '',
-        'System Design',
-        '██████████████████░░ 92%',
-        'Microservices, Scalability, Performance Optimization',
-        ''
-      ].join('\n')
-    })
+    execute: () => {
+      const bar = (percent: number, length = 20) => {
+        const filled = Math.round((percent / 100) * length);
+        return '█'.repeat(filled) + '░'.repeat(length - filled);
+      };
+
+      const content = skillsData.skills.map(s =>
+        [
+          s.name,
+          `${bar(s.level)} ${s.level}%`,
+          s.keywords,
+          ''
+        ].join('\n')
+      ).join('');
+
+      return {
+        type: 'progress',
+        content: `\n💻 ${skillsData.title}:\n\n${content}`
+      };
+    }
   },
   experience: {
     description: 'View work experience',

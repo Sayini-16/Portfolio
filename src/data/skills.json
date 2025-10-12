@@ -1,0 +1,35 @@
+{
+  "title": "Technical Skills",
+  "skills": [
+    {
+      "name": "Frontend Development",
+      "level": 95,
+      "keywords": "React, Next.js, Vue, TypeScript, Tailwind CSS"
+    },
+    {
+      "name": "Backend Development",
+      "level": 90,
+      "keywords": "Node.js, Python, FastAPI, GraphQL, REST APIs"
+    },
+    {
+      "name": "Databases & Caching",
+      "level": 88,
+      "keywords": "PostgreSQL, MongoDB, Redis, Elasticsearch"
+    },
+    {
+      "name": "DevOps & Cloud",
+      "level": 85,
+      "keywords": "AWS, Docker, Kubernetes, CI/CD, Terraform"
+    },
+    {
+      "name": "AI & Machine Learning",
+      "level": 78,
+      "keywords": "TensorFlow, PyTorch, scikit-learn, NLP"
+    },
+    {
+      "name": "System Design",
+      "level": 92,
+      "keywords": "Microservices, Scalability, Performance Optimization"
+    }
+  ]
+}

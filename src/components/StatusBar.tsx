@@ -1,7 +1,7 @@
 import React from "react";
-import { themes } from "../../themes";
-import type { ThemeKey } from "../../themes";
-import { commands } from "../../commands";
+import { themes } from "../lib/themes";
+import type { ThemeKey } from "../lib/themes";
+import { commands } from "../lib/commands";
 
 interface StatusBarProps {
   commandHistory: string[];

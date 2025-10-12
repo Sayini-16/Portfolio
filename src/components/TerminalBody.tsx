@@ -1,6 +1,6 @@
 import React from "react";
-import { themes } from "../../themes";
-import type { ThemeKey } from "../../themes";
+import { themes } from "../lib/themes";
+import type { ThemeKey } from "../lib/themes";
 import { HistoryLine } from "./HistoryLine";
 
 interface HistoryEntry {
