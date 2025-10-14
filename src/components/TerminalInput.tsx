@@ -22,15 +22,11 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
   handleKeyDown,
   inputRef,
   currentTheme,
-  theme,
 }) => {
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={`${currentTheme.termBg} border ${currentTheme.border} rounded-b-lg p-3`}
-    >
-      <div className="flex items-center gap-2">
-        <span className={currentTheme.prompt}>$</span>
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="flex items-center">
+        <span className={`${currentTheme.primary} font-bold`}>$</span>
         <input
           ref={inputRef}
           type="text"
@@ -47,14 +43,10 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             }
           }}
           onKeyDown={handleKeyDown}
-          className={`flex-1 bg-transparent outline-none ${currentTheme.text}`}
+          className={`w-full bg-transparent outline-none ml-2 ${currentTheme.text}`}
           placeholder="Type a command or ask me anything..."
           autoFocus
         />
-      </div>
-      <div className={`mt-2 text-xs ${currentTheme.secondaryText}`}>
-        TAB: autocomplete | ↑/↓: history | ESC: clear suggestions | Theme:{" "}
-        {themes[theme].name}
       </div>
     </form>
   );

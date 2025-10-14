@@ -2,10 +2,7 @@ import React from "react";
 import { useTheme } from "./hooks/useTheme";
 import { useTerminal } from "./hooks/useTerminal";
 
-import { TerminalHeader } from "./components/TerminalHeader";
 import { TerminalBody } from "./components/TerminalBody";
-import { Autocomplete } from "./components/Autocomplete";
-import { TerminalInput } from "./components/TerminalInput";
 import { StatusBar } from "./components/StatusBar";
 
 export default function AIPortfolioTerminal() {
@@ -32,51 +29,25 @@ export default function AIPortfolioTerminal() {
 
   return (
     <div
-      className="min-h-screen bg-background text-foreground font-mono p-4 flex flex-col"
+      className="min-h-screen bg-background text-foreground font-mono flex flex-col"
       style={terminalStyle}
     >
-      <h1 className="text-4xl font-bold italic text-center mb-4 text-primary">
-        GameHub
-      </h1>
-
-      <TerminalHeader
-        currentTheme={currentTheme}
-        theme={theme}
-        setTheme={setTheme}
-      />
-
       <TerminalBody
         history={history}
         isTyping={isTyping}
         currentTheme={currentTheme}
         terminalRef={terminalRef}
         inputRef={inputRef}
-      />
-
-      <Autocomplete
-        suggestions={suggestions}
-        currentTheme={currentTheme}
-        setInput={setInput}
-        setSuggestions={setSuggestions}
-        inputRef={inputRef}
-      />
-
-      <TerminalInput
-        handleSubmit={handleSubmit}
         input={input}
         setInput={setInput}
         setSuggestions={setSuggestions}
         handleKeyDown={handleKeyDown}
-        inputRef={inputRef}
-        currentTheme={currentTheme}
+        handleSubmit={handleSubmit}
+        suggestions={suggestions}
         theme={theme}
-      />
-
-      <StatusBar
         commandHistory={commandHistory}
-        currentTheme={currentTheme}
-        theme={theme}
       />
+      <StatusBar currentTheme={currentTheme} theme={theme} />
     </div>
   );
 }
