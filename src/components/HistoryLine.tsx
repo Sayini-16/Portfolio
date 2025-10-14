@@ -1,5 +1,4 @@
 import React from "react";
-import { Zap } from "lucide-react";
 import { themes } from "../lib/themes";
 import type { ThemeKey } from "../lib/themes";
 
@@ -29,8 +28,6 @@ export const HistoryLine: React.FC<HistoryLineProps> = ({
       ? currentTheme.error
       : entry.output?.type === "success"
       ? currentTheme.success
-      : entry.output?.type === "ai"
-      ? currentTheme.ai
       : entry.output?.type === "welcome"
       ? currentTheme.accent
       : currentTheme.secondaryText;
@@ -51,17 +48,7 @@ export const HistoryLine: React.FC<HistoryLineProps> = ({
           </span>
         </div>
       )}
-      {entry.output && (
-        <div className={outputClass}>
-          {entry.output.type === "ai" && (
-            <div className="flex items-start gap-2 mb-2">
-              <Zap size={14} className="mt-1 animate-pulse" />
-              <span className={`text-xs ${currentTheme.ai}`}>AI Assistant</span>
-            </div>
-          )}
-          {entry.output.content}
-        </div>
-      )}
+      {entry.output && <div className={outputClass}>{entry.output.content}</div>}
     </div>
   );
 };

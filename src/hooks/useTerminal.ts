@@ -19,14 +19,14 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping] = useState(false); // pure terminal: no typing animation
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isTyping) return;
+  const runCommand = (cmd: string) => {
+    const value = cmd.trim();
+    if (!value) return;
 
     const commandContext = {
       commandHistory,
@@ -35,22 +35,24 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
       setHistory,
     };
 
-    const output = processCommand(input, commandContext);
+    const output = processCommand(value, commandContext);
     if (output) {
       const newEntry = {
-        command: input,
+        command: value,
         output,
         timestamp: new Date().toLocaleTimeString(),
       };
       setHistory([...history, newEntry]);
     }
-    setCommandHistory([...commandHistory, input]);
+    setCommandHistory([...commandHistory, value]);
     setHistoryIndex(-1);
     setInput('');
     setSuggestions([]);
-    setIsTyping(true);
+  };
 
-    setTimeout(() => setIsTyping(false), 500);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    runCommand(input);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -107,27 +109,20 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
   }, [history]);
 
   useEffect(() => {
-    const makeWelcome = (
-      themeName: string
-    ) => `╔═══════════════════════════════════════════════════════════╗
-║     Welcome to AI-Powered Portfolio Terminal v2.0         ║
+    const makeWelcome = (themeName: string) =>  `╔═══════════════════════════════════════════════════════════╗
+║     Welcome to Portfolio Terminal v2.0                    ║
 ║                                                           ║
-║  Type 'help' for commands or chat naturally with AI       ║
+║  Type 'help' for commands                                 ║
 ║  Press TAB for autocomplete • Use ↑/↓ for history         ║
 ╚═══════════════════════════════════════════════════════════╝
 
-  Current theme: ${themeName}
-  Type 'themes' to see all available color schemes!
-
-  Try: "What technologies do you know?" or "Tell me about your projects"`;
+Current theme: ${themeName}
+Type 'themes' to list color schemes.`;
 
     if (history.length === 0) {
       setHistory([
         {
-          output: {
-            type: 'welcome',
-            content: makeWelcome(themes[theme].name),
-          },
+          output: { type: 'welcome', content: makeWelcome(themes[theme].name) },
           timestamp: new Date().toLocaleTimeString(),
         },
       ]);
@@ -140,10 +135,7 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
       if (first.output?.type !== 'welcome') return prev;
       const updatedFirst = {
         ...first,
-        output: {
-          ...first.output,
-          content: makeWelcome(themes[theme].name),
-        },
+        output: { ...first.output, content: makeWelcome(themes[theme].name) },
         updated: true,
       };
       setTimeout(() => {
@@ -154,11 +146,11 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
           const cleared = { ...f, updated: false };
           return [cleared, ...cur.slice(1)];
         });
-      }, 1000);
+      }, 300);
 
       return [updatedFirst, ...prev.slice(1)];
     });
-  }, [theme, history.length]);
+  }, [theme]);
 
   return {
     input,
@@ -172,5 +164,7 @@ export const useTerminal = (theme: ThemeKey, setTheme: (theme: ThemeKey) => void
     terminalRef,
     handleSubmit,
     handleKeyDown,
+    runCommand,
   };
 };
+

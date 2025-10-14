@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* App background: subtle grid */
+:root {
+  --grid-color: rgba(255,255,255,0.03);
+}
+
+body {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+}
+
 /* Brief highlight animation for welcome entry updates */
 @keyframes welcomeHighlight {
 	0% { background-color: rgba(255,255,255,0); }
@@ -13,4 +25,139 @@
 	animation: welcomeHighlight 900ms ease-in-out;
 	padding: 0.125rem; /* small padding so bg flash is visible */
 	border-radius: 0.25rem;
+}
+
+/* 3D hero cube */
+.perspective-1000 { perspective: 1000px; }
+
+.cube {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  transform-style: preserve-3d;
+}
+
+.rotate-3d {
+  animation: spin3d 16s linear infinite;
+}
+
+@keyframes spin3d {
+  0% { transform: rotateX(-20deg) rotateY(0deg); }
+  50% { transform: rotateX(340deg) rotateY(180deg); }
+  100% { transform: rotateX(700deg) rotateY(360deg); }
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  backdrop-filter: blur(2px);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none; /* let container handle clicks reliably */
+}
+
+.face--front  { transform: translateZ(80px); }
+.face--back   { transform: rotateY(180deg) translateZ(80px); }
+.face--right  { transform: rotateY(90deg) translateZ(80px); }
+.face--left   { transform: rotateY(-90deg) translateZ(80px); }
+.face--top    { transform: rotateX(90deg) translateZ(80px); }
+.face--bottom { transform: rotateX(-90deg) translateZ(80px); }
+
+/* slow background pulse */
+.animate-pulse-slow { animation: pulseSlow 6s ease-in-out infinite; }
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.6; }
+}
+
+/* binary ring around the cube */
+.binary-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.65);
+  border: 1px dashed rgba(255,255,255,0.12);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  animation: spinRing 18s linear infinite;
+}
+@keyframes spinRing {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* orbiting particles around cube */
+.orbiters {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  pointer-events: none;
+}
+.orbiter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+  transform-origin: -120px 0;
+  animation: orbit 12s linear infinite;
+}
+.orbiter:nth-child(2) { transform-origin: -140px 0; animation-duration: 16s; opacity: 0.75; }
+.orbiter:nth-child(3) { transform-origin: -100px 0; animation-duration: 9s; opacity: 0.6; }
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* theme-colored flares with gentle hue cycling */
+.flares { position: absolute; inset: 0; pointer-events: none; }
+.flares.color-cycle { animation: hueCycle 45s linear infinite; }
+@keyframes hueCycle {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
+.flare {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%) scale(1);
+  border-radius: 9999px;
+  background: radial-gradient(circle, currentColor 0%, rgba(255,255,255,0) 60%);
+  mix-blend-mode: screen;
+  opacity: 0.35;
+  animation: flarePulse 6s ease-in-out infinite;
+}
+.flare.sm { width: 90px; height: 90px; animation-duration: 8s; opacity: 0.3; }
+.flare.lg { width: 180px; height: 180px; animation-duration: 10s; opacity: 0.25; }
+@keyframes flarePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.2; }
+  50%      { transform: translate(-50%, -50%) scale(1.15); opacity: 0.45; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rotate-3d { animation: none; }
+  .animate-pulse-slow { animation: none; }
 }

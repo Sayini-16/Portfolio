@@ -44,7 +44,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
           }}
           onKeyDown={handleKeyDown}
           className={`w-full bg-transparent outline-none ml-2 ${currentTheme.text}`}
-          placeholder="Type a command or ask me anything..."
+          placeholder="Type a command (try 'help')"
           autoFocus
         />
       </div>

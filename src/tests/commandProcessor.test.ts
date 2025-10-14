@@ -25,13 +25,15 @@ describe('processCommand', () => {
     const result = processCommand('unknown', commandContext);
     expect(result).toEqual({
       type: 'error',
-      content: `Command not found: unknown\n\nType 'help' for available commands or try asking me a question!\nExample: "What technologies do you know?"`,
+      content: `Unknown command: unknown\n\nType 'help' to list available commands.`,
     });
   });
 
-  it('should return an AI response for a natural language query', () => {
+  it('should return an error for a natural language query (AI disabled)', () => {
     const result = processCommand('what technologies do you know?', commandContext);
-    expect(result?.type).toBe('ai');
-    expect(result?.content).toBeDefined();
+    expect(result).toEqual({
+      type: 'error',
+      content: `Unknown command: what\n\nType 'help' to list available commands.`,
+    });
   });
 });

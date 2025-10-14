@@ -1,18 +1,8 @@
 import { commands } from "./commands";
 import type { CommandKey } from "./commands";
-import { aiResponses } from "./ai";
+// Pure terminal: no AI imports
 
-const aiCommandMap = {
-  greetings: /^(hi|hello|hey|greetings|howdy|yo)/,
-  technologies: /technolog|stack|language|tools/,
-  unique: /unique|different|stand out|special/,
-  latest: /latest project|recent project|current project|working on/,
-  best: /best project|favorite project|proudest/,
-  hire: /hire|job|opportunity|available|looking for/,
-  passionate: /passionate|love|enjoy|motivate/,
-  learning: /learn|studying|improve|education/,
-  advice: /advice|tip|recommend|suggest/,
-};
+// No AI keyword matching
 
 import type { CommandContext } from "./commands";
 import type { CommandOutput } from "./commands";
@@ -32,19 +22,10 @@ export const processCommand = (
     return commands[command as CommandKey].execute(commandContext, args);
   }
 
-  const lowerCmd = trimmedCmd.toLowerCase();
-  for (const key in aiCommandMap) {
-    const keyword = key as keyof typeof aiCommandMap;
-    if (lowerCmd.match(aiCommandMap[keyword])) {
-      return {
-        type: "ai",
-        content: aiResponses[keyword](),
-      };
-    }
-  }
+  // No AI fallback; unknown text is an error
 
   return {
     type: "error",
-    content: `Command not found: ${command}\n\nType 'help' for available commands or try asking me a question!\nExample: "What technologies do you know?"`,
+    content: `Unknown command: ${command}\n\nType 'help' to list available commands.`,
   };
 };

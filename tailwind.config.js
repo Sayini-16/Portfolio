@@ -3,7 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./themes.ts", // Make sure Tailwind scans your themes file
+    "./src/lib/themes.ts", // Scan theme definitions for class strings
   ],
   safelist: [
     {

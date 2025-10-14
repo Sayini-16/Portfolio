@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { themes } from "../lib/themes";
 import type { ThemeKey } from "../lib/themes";
 import { HistoryLine } from "./HistoryLine";
@@ -44,10 +44,17 @@ export const TerminalBody: React.FC<TerminalBodyProps> = ({
   suggestions,
   theme,
 }) => {
+  // Keep the scroll container pinned to the latest output
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [history, isTyping, suggestions]);
+
   return (
     <div
       ref={terminalRef}
-      className={`flex-1 ${currentTheme.bg} overflow-y-auto p-4`}
+      className={`flex-1 overflow-y-auto p-4 scroll-smooth`}
       onClick={() => {
         if (inputRef && "current" in inputRef && inputRef.current) {
           inputRef.current.focus();
@@ -57,20 +64,7 @@ export const TerminalBody: React.FC<TerminalBodyProps> = ({
       {history.map((entry, index) => (
         <HistoryLine key={index} entry={entry} currentTheme={currentTheme} />
       ))}
-      {isTyping && (
-        <div className={`flex items-center gap-2 ${currentTheme.ai} ml-4`}>
-          <div className="flex gap-1">
-            <span className="animate-pulse">.</span>
-            <span className="animate-pulse" style={{ animationDelay: "0.2s" }}>
-              .
-            </span>
-            <span className="animate-pulse" style={{ animationDelay: "0.4s" }}>
-              .
-            </span>
-          </div>
-          <span className="text-xs">AI is thinking</span>
-        </div>
-      )}
+      {/* Pure terminal mode: no AI typing indicator */}
       <div className="relative">
         <TerminalInput
           handleSubmit={handleSubmit}
@@ -90,6 +84,8 @@ export const TerminalBody: React.FC<TerminalBodyProps> = ({
           inputRef={inputRef}
         />
       </div>
+      {/* Sentinel to ensure the newest content is visible */}
+      <div ref={bottomRef} />
     </div>
   );
 };

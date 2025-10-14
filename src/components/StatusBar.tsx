@@ -7,10 +7,7 @@ interface StatusBarProps {
   theme: ThemeKey;
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({
-  currentTheme,
-  theme,
-}) => {
+export const StatusBar: React.FC<StatusBarProps> = ({ currentTheme, theme }) => {
   return (
     <div
       className={`bg-background text-foreground text-xs p-1 flex justify-between items-center`}
@@ -25,6 +22,10 @@ export const StatusBar: React.FC<StatusBarProps> = ({
         <span>↑/↓: history</span>
         <span className="mx-2">|</span>
         <span>ESC: clear suggestions</span>
+        <span className="mx-2">|</span>
+        <span>Ctrl/Cmd+T: cycle theme</span>
+        <span className="mx-2">|</span>
+        <span>Ctrl/Cmd+K: palette</span>
       </div>
       <div>
         <span>Theme: {themes[theme].name}</span>

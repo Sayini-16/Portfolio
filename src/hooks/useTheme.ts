@@ -3,7 +3,10 @@ import { themes } from '../lib/themes';
 import type { ThemeKey } from '../lib/themes';
 
 export const useTheme = (initialTheme: ThemeKey = 'matrix') => {
-  const [theme, setTheme] = useState<ThemeKey>(initialTheme);
+  const [theme, setTheme] = useState<ThemeKey>(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('terminal-theme') : null;
+    return (saved as ThemeKey) || initialTheme;
+  });
 
   const cycleTheme = useCallback(() => {
     const themeKeys = Object.keys(themes) as ThemeKey[];
@@ -13,6 +16,10 @@ export const useTheme = (initialTheme: ThemeKey = 'matrix') => {
   }, [theme]);
 
   useEffect(() => {
+    // persist theme selection
+    try {
+      localStorage.setItem('terminal-theme', theme);
+    } catch {}
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 't') {
         e.preventDefault();
@@ -21,7 +28,7 @@ export const useTheme = (initialTheme: ThemeKey = 'matrix') => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [cycleTheme]);
+  }, [cycleTheme, theme]);
 
   return { theme, setTheme, cycleTheme, currentTheme: themes[theme] };
 };
