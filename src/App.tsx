@@ -25,9 +25,9 @@ export default function AIPortfolioTerminal() {
   } = useTerminal(theme, setTheme);
 
   const terminalStyle: React.CSSProperties = {
-    '--background': currentTheme.bg,
-    '--foreground': currentTheme.text,
-    '--primary': currentTheme.primary,
+    "--background": currentTheme.bg,
+    "--foreground": currentTheme.text,
+    "--primary": currentTheme.primary,
   };
 
   return (

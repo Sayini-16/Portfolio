@@ -1,6 +1,6 @@
-import { commands } from './commands';
-import type { CommandKey } from './commands';
-import { aiResponses } from './ai';
+import { commands } from "./commands";
+import type { CommandKey } from "./commands";
+import { aiResponses } from "./ai";
 
 const aiCommandMap = {
   greetings: /^(hi|hello|hey|greetings|howdy|yo)/,
@@ -14,7 +14,8 @@ const aiCommandMap = {
   advice: /advice|tip|recommend|suggest/,
 };
 
-import { CommandContext, CommandOutput } from './commands';
+import type { CommandContext } from "./commands";
+import type { CommandOutput } from "./commands";
 
 export const processCommand = (
   cmd: string,
