@@ -10,18 +10,30 @@ import achievementsData from "../data/achievements.json";
 import socialData from "../data/social.json";
 import contactData from "../data/contact.json";
 
-import type { HistoryEntry } from "../hooks/useTerminal";
+import type { HistoryEntry } from "../store/terminalStore";
 
 export type CommandOutput = {
   type: "info" | "list" | "success" | "error" | "welcome" | "progress";
   content: string;
 };
 
+// Context passed to command execute functions
 export type CommandContext = {
+  input: string;
+  setInput: (input: string) => void;
+  history: HistoryEntry[];
+  setHistory: (history: HistoryEntry[]) => void;
   commandHistory: string[];
+  isTyping: boolean;
+  suggestions: string[];
+  setSuggestions: (suggestions: string[]) => void;
+  inputRef: { current: HTMLInputElement | null };
+  terminalRef: { current: HTMLDivElement | null };
+  handleSubmit: () => void;
+  handleKeyDown: () => void;
+  runCommand: (cmd: string) => void;
   theme: ThemeKey;
   setTheme: (theme: ThemeKey) => void;
-  setHistory: (history: HistoryEntry[]) => void;
 };
 
 export type Command = {

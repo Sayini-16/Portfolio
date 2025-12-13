@@ -2,11 +2,7 @@
   "links": [
     { "name": "GitHub", "url": "https://github.com/yourname" },
     { "name": "LinkedIn", "url": "https://www.linkedin.com/in/yourname" },
-    { "name": "Twitter", "url": "https://twitter.com/yourhandle" },
-    { "name": "Medium", "url": "https://medium.com/@yourname" },
-    { "name": "Dev.to", "url": "https://dev.to/yourname" },
-    { "name": "YouTube", "url": "https://youtube.com/@yourname" },
-    { "name": "Stack Overflow", "url": "https://stackoverflow.com/users/yourname" }
+    { "name": "Twitter", "url": "https://twitter.com/yourhandle" }
   ]
 }
 

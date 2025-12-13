@@ -9,7 +9,7 @@ import type { CommandOutput } from "./commands";
 
 export const processCommand = (
   cmd: string,
-  commandContext: CommandContext
+  terminalState: CommandContext
 ): CommandOutput | null => {
   const trimmedCmd = cmd.trim();
   if (!trimmedCmd) return null;
@@ -19,7 +19,7 @@ export const processCommand = (
   const args = parts.slice(1).join(" ");
 
   if (command in commands && commands[command as CommandKey]) {
-    return commands[command as CommandKey].execute(commandContext, args);
+    return commands[command as CommandKey].execute(terminalState, args);
   }
 
   // No AI fallback; unknown text is an error

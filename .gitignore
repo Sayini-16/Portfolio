@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Large 3D model files (host externally)
+public/models/*.glb
+public/models/*.gltf
+public/models/*.fbx
+
+# Environment files
+.env
+.env.local
+.env.production

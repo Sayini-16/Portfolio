@@ -1,54 +1,53 @@
 import React from "react";
-import { themes } from "../lib/themes";
-import type { ThemeKey } from "../lib/themes";
-
-interface HistoryEntry {
-  command?: string;
-  output?: {
-    type: string;
-    content: string;
-  };
-  // optional flag to trigger a brief highlight animation
-  updated?: boolean;
-  timestamp: string;
-}
+import { useCurrentTheme } from "../store/terminalStore";
+import type { HistoryEntry } from "../store/terminalStore";
 
 interface HistoryLineProps {
   entry: HistoryEntry;
-  currentTheme: (typeof themes)[ThemeKey];
 }
 
-export const HistoryLine: React.FC<HistoryLineProps> = ({
-  entry,
-  currentTheme,
-}) => {
-  const baseClass = "ml-4 whitespace-pre-wrap";
-  const stateClass =
-    entry.output?.type === "error"
-      ? currentTheme.error
-      : entry.output?.type === "success"
-      ? currentTheme.success
-      : entry.output?.type === "welcome"
-      ? currentTheme.accent
-      : currentTheme.secondaryText;
+export const HistoryLine: React.FC<HistoryLineProps> = ({ entry }) => {
+  const currentTheme = useCurrentTheme();
+
+  // Determine output color based on type
+  const getOutputColor = () => {
+    switch (entry.output?.type) {
+      case "error":
+        return currentTheme.colors.error;
+      case "success":
+        return currentTheme.colors.success;
+      case "welcome":
+        return currentTheme.colors.accent;
+      default:
+        return currentTheme.colors.textMuted;
+    }
+  };
 
   // If the entry has been marked `updated`, add a short highlight class.
   const highlightClass = entry.updated ? "animate-welcome-highlight" : "";
 
-  const outputClass = `${baseClass} ${stateClass} ${highlightClass}`;
-
   return (
-    <div className="mb-4">
+    <div className="mb-4" data-line>
       {entry.command && (
         <div className="flex gap-2 mb-1">
-          <span className={currentTheme.prompt}>❯</span>
-          <span className={currentTheme.text}>{entry.command}</span>
-          <span className={`${currentTheme.secondaryText} text-xs ml-auto`}>
+          <span style={{ color: currentTheme.colors.primary }}>$</span>
+          <span style={{ color: currentTheme.colors.text }}>{entry.command}</span>
+          <span
+            className="text-xs ml-auto"
+            style={{ color: currentTheme.colors.textMuted }}
+          >
             {entry.timestamp}
           </span>
         </div>
       )}
-      {entry.output && <div className={outputClass}>{entry.output.content}</div>}
+      {entry.output && (
+        <div
+          className={`ml-4 whitespace-pre-wrap ${highlightClass}`}
+          style={{ color: getOutputColor() }}
+        >
+          {entry.output.content}
+        </div>
+      )}
     </div>
   );
 };

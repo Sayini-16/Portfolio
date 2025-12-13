@@ -1,88 +1,93 @@
 import React, { useEffect, useRef } from "react";
-import { themes } from "../lib/themes";
-import type { ThemeKey } from "../lib/themes";
+import { motion, AnimatePresence } from "framer-motion";
+import { useHistory, useCurrentTheme, useSuggestions, useTerminalActions } from "../store/terminalStore";
 import { HistoryLine } from "./HistoryLine";
 import { Autocomplete } from "./Autocomplete";
 import { TerminalInput } from "./TerminalInput";
+import { terminalLineVariants, durations, prefersReducedMotion } from "../lib/motion";
+import type { HistoryEntry } from "../store/terminalStore";
 
-interface HistoryEntry {
-  command?: string;
-  output?: {
-    type: string;
-    content: string;
-  };
-  timestamp: string;
-}
+export const TerminalBody: React.FC = () => {
+  const history = useHistory();
+  const currentTheme = useCurrentTheme();
+  const suggestions = useSuggestions();
+  const { setInput, setSuggestions } = useTerminalActions();
 
-interface TerminalBodyProps {
-  history: HistoryEntry[];
-  isTyping: boolean;
-  currentTheme: (typeof themes)[ThemeKey];
-  terminalRef: React.Ref<HTMLDivElement>;
-  inputRef: React.Ref<HTMLInputElement>;
-  input: string;
-  setInput: (input: string) => void;
-  setSuggestions: (suggestions: string[]) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-  suggestions: string[];
-  theme: ThemeKey;
-  commandHistory: string[];
-}
-
-export const TerminalBody: React.FC<TerminalBodyProps> = ({
-  history,
-  isTyping,
-  currentTheme,
-  terminalRef,
-  inputRef,
-  input,
-  setInput,
-  setSuggestions,
-  handleKeyDown,
-  handleSubmit,
-  suggestions,
-  theme,
-}) => {
-  // Keep the scroll container pinned to the latest output
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null!);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
+  // Auto-scroll when new history entries are added
+  const prevLenRef = useRef<number>(0);
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [history, isTyping, suggestions]);
+    const reduce = prefersReducedMotion();
+    const prev = prevLenRef.current;
+    const cur = history.length;
+    const appended = cur > prev;
+
+    if (appended) {
+      bottomRef.current?.scrollIntoView({
+        behavior: reduce ? 'auto' : 'smooth',
+        block: 'end',
+      });
+    }
+
+    prevLenRef.current = cur;
+  }, [history]);
 
   return (
     <div
       ref={terminalRef}
-      className={`flex-1 overflow-y-auto p-4 scroll-smooth`}
+      className="flex-1 overflow-y-auto p-4 scroll-smooth"
       onClick={() => {
-        if (inputRef && "current" in inputRef && inputRef.current) {
-          inputRef.current.focus();
+        if (inputRef.current) {
+          try {
+            inputRef.current.focus({ preventScroll: true });
+          } catch {
+            inputRef.current.focus();
+          }
         }
       }}
     >
-      {history.map((entry, index) => (
-        <HistoryLine key={index} entry={entry} currentTheme={currentTheme} />
-      ))}
-      {/* Pure terminal mode: no AI typing indicator */}
+      <AnimatePresence mode="popLayout">
+        {history.map((entry: HistoryEntry, index: number) => (
+          <motion.div
+            key={`history-${index}`}
+            variants={terminalLineVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{
+              duration: durations.fast,
+              ease: [0, 0, 0.2, 1],
+            }}
+            layout
+          >
+            <HistoryLine entry={entry} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
       <div className="relative">
-        <TerminalInput
-          handleSubmit={handleSubmit}
-          input={input}
-          setInput={setInput}
-          setSuggestions={setSuggestions}
-          handleKeyDown={handleKeyDown}
-          inputRef={inputRef}
-          currentTheme={currentTheme}
-          theme={theme}
-        />
-        <Autocomplete
-          suggestions={suggestions}
-          currentTheme={currentTheme}
-          setInput={setInput}
-          setSuggestions={setSuggestions}
-          inputRef={inputRef}
-        />
+        <TerminalInput inputRef={inputRef} />
+        <AnimatePresence>
+          {suggestions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: durations.fast }}
+            >
+              <Autocomplete
+                suggestions={suggestions}
+                currentTheme={currentTheme}
+                setInput={setInput}
+                setSuggestions={setSuggestions}
+                inputRef={inputRef}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       {/* Sentinel to ensure the newest content is visible */}
       <div ref={bottomRef} />

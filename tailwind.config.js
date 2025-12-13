@@ -3,15 +3,11 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./src/lib/themes.ts", // Scan theme definitions for class strings
   ],
+  // Removed aggressive safelist - we now use inline styles for theme colors
+  // This should reduce CSS from ~3.5MB to ~50KB
   safelist: [
-    {
-      // This pattern will safelist all `bg-`, `text-`, `border-`, and `hover:text-`
-      // classes that use hex colors or tailwind color names.
-      pattern: /(bg|text|border|hover:text)-(\w+-)?(\[\#\w+\]|\w+)/,
-    },
-    // Terminal window buttons
+    // Traffic light buttons in TerminalHeader
     'bg-red-500',
     'bg-yellow-500',
     'bg-green-500',

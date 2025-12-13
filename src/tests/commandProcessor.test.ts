@@ -1,14 +1,25 @@
 import { describe, it, expect, vi } from 'vitest';
 import { processCommand } from '../lib/commandProcessor';
 import * as commands from '../lib/commands';
-import { CommandContext } from '../lib/commands';
+import type { CommandContext } from '../lib/commands';
 
 describe('processCommand', () => {
   const commandContext: CommandContext = {
-    commandHistory: [],
-    theme: 'matrix' as const,
-    setTheme: vi.fn(),
+    input: '',
+    setInput: vi.fn(),
+    history: [],
     setHistory: vi.fn(),
+    commandHistory: [],
+    isTyping: false,
+    suggestions: [],
+    setSuggestions: vi.fn(),
+    inputRef: { current: null },
+    terminalRef: { current: null },
+    handleSubmit: vi.fn(),
+    handleKeyDown: vi.fn(),
+    runCommand: vi.fn(),
+    theme: 'matrix',
+    setTheme: vi.fn(),
   };
 
   it('should return null for an empty command', () => {
