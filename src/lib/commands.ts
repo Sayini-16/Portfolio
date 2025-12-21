@@ -133,18 +133,25 @@ export const commands: Record<CommandKey, Command> = {
   experience: {
     description: "View work experience",
     execute: () => {
+      const formatRole = (e: typeof experienceData.experience[0]) => {
+        const header = `┌─ ${e.title}`;
+        const company = `│  @ ${e.company}`;
+        const period = `│  ${e.start} - ${e.end} · ${e.location}`;
+        const divider = `│`;
+        const bullets = (e.bullets || []).map((b: string) => `│  • ${b}`);
+        const tech = e.tech?.length ? `│  ▸ ${e.tech.join(" · ")}` : "";
+        const footer = `└${"─".repeat(40)}`;
+
+        return [header, company, period, divider, ...bullets, tech, footer]
+          .filter(Boolean)
+          .join("\n");
+      };
+
       const content = experienceData.experience
-        .map((e) =>
-          [
-            `- ${e.title} @ ${e.company}`,
-            `  ${e.start} - ${e.end} | ${e.location}`,
-            ...(e.bullets || []).map((b: string) => `  - ${b}`),
-            e.tech && e.tech.length ? `  Tech: ${e.tech.join(", ")}` : "",
-            "",
-          ].join("\n")
-        )
-        .join("");
-      return { type: "info", content };
+        .map((e) => formatRole(e))
+        .join("\n\n");
+
+      return { type: "info", content: `\nWork Experience:\n\n${content}` };
     },
   },
   education: {
@@ -187,13 +194,10 @@ export const commands: Record<CommandKey, Command> = {
         `  Email:     ${contactData.email}`,
         `  Phone:     ${contactData.phone}`,
         `  Location:  ${contactData.location}`,
-        `  Website:   ${contactData.website}`,
         "",
         `  LinkedIn:  ${contactData.linkedin}`,
         `  GitHub:    ${contactData.github}`,
-        contactData.twitter ? `  Twitter:   ${contactData.twitter}` : "",
-        contactData.medium ? `  Medium:    ${contactData.medium}` : "",
-      ].filter(Boolean).join("\n"),
+      ].join("\n"),
     }),
   },
   resume: {

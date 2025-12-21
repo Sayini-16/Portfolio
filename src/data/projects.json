@@ -2,61 +2,56 @@
   "title": "Featured Projects",
   "projects": [
     {
-      "title": "AI Task Manager Pro",
-      "description": "Smart productivity suite using ML to optimize workflows",
+      "title": "The Censoror",
+      "description": "Automated data censorship tool using NLP and regex",
       "details": [
-        "Auto-prioritization with 95% accuracy",
-        "Natural language processing for task creation",
-        "50K+ active users, 4.8★ rating"
+        "Advanced regex patterns for PII detection",
+        "Configurable CLI for batch file processing",
+        "Automated compliance report generation"
       ],
-      "tech": "React, Python, TensorFlow, FastAPI, PostgreSQL",
+      "tech": "Python, Regex, NLP, CLI",
       "links": [
-        { "name": "Live", "url": "#" },
-        { "name": "GitHub", "url": "#" },
-        { "name": "Case Study", "url": "#" }
-      ]
-    },
-    {
-      "title": "Real-Time Collaboration Hub",
-      "description": "Enterprise-grade platform for distributed teams",
-      "details": [
-        "WebSocket-based real-time editing",
-        "End-to-end encryption",
-        "Serving Fortune 500 companies"
-      ],
-      "tech": "Next.js, Node.js, Socket.io, Redis, MongoDB",
-      "links": [
-        { "name": "Live", "url": "#" },
         { "name": "GitHub", "url": "#" }
       ]
     },
     {
-      "title": "E-Commerce Analytics Dashboard",
-      "description": "Comprehensive business intelligence platform",
+      "title": "Misogyny Detection System",
+      "description": "AI-powered content moderation for social media",
       "details": [
-        "Real-time sales tracking and predictions",
-        "Custom report generation with AI insights",
-        "Reduced decision time by 70%"
+        "89.36% classification accuracy on multimedia content",
+        "Automated reporting system for flagged posts",
+        "Published research paper in IRJET"
       ],
-      "tech": "Vue.js, GraphQL, Python, AWS Lambda",
+      "tech": "Python, NLP, Machine Learning, Computer Vision",
       "links": [
-        { "name": "Demo", "url": "#" },
-        { "name": "Documentation", "url": "#" }
+        { "name": "Paper", "url": "#" },
+        { "name": "GitHub", "url": "#" }
       ]
     },
     {
-      "title": "Open Source UI Library",
-      "description": "Modern component library with 2K+ GitHub stars",
+      "title": "Toxic Comment Classifier",
+      "description": "ML-powered tool for detecting harmful online content",
       "details": [
-        "100+ customizable components",
-        "Full TypeScript support",
-        "Used by 500+ projects"
+        "92.73% accuracy in toxicity classification",
+        "User-friendly Tkinter GUI interface",
+        "Real-time comment analysis"
       ],
-      "tech": "React, TypeScript, Storybook, Rollup",
+      "tech": "Python, Tkinter, scikit-learn, NLP",
       "links": [
-        { "name": "GitHub", "url": "#" },
-        { "name": "NPM", "url": "#" },
-        { "name": "Docs", "url": "#" }
+        { "name": "GitHub", "url": "#" }
+      ]
+    },
+    {
+      "title": "ScholarshipAuditions Platform",
+      "description": "Full-stack features for 500K+ user education platform",
+      "details": [
+        "Real-time messaging with Django Channels",
+        "Video upload pipeline with AWS S3/Lambda",
+        "Elasticsearch-powered student search"
+      ],
+      "tech": "Django, Angular, AWS, PostgreSQL, Redis",
+      "links": [
+        { "name": "Live", "url": "https://scholarshipauditions.com" }
       ]
     }
   ]

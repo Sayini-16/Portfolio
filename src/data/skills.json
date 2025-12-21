@@ -2,34 +2,34 @@
   "title": "Technical Skills",
   "skills": [
     {
-      "name": "Frontend Development",
-      "level": 95,
-      "keywords": "React, Next.js, Vue, TypeScript, Tailwind CSS"
+      "name": "Backend Development",
+      "level": 92,
+      "keywords": "Python, Django, Node.js, REST APIs, Django Channels"
     },
     {
-      "name": "Backend Development",
-      "level": 90,
-      "keywords": "Node.js, Python, FastAPI, GraphQL, REST APIs"
+      "name": "Frontend Development",
+      "level": 88,
+      "keywords": "React.js, Angular, JavaScript, TypeScript, Tailwind CSS"
     },
     {
       "name": "Databases & Caching",
-      "level": 88,
-      "keywords": "PostgreSQL, MongoDB, Redis, Elasticsearch"
+      "level": 90,
+      "keywords": "PostgreSQL, MongoDB, Redis, Elasticsearch, Firebase"
     },
     {
-      "name": "DevOps & Cloud",
+      "name": "Cloud & DevOps",
       "level": 85,
-      "keywords": "AWS, Docker, Kubernetes, CI/CD, Terraform"
+      "keywords": "AWS (ECS, RDS, S3, Lambda), Docker, CI/CD, Linux"
     },
     {
       "name": "AI & Machine Learning",
-      "level": 78,
-      "keywords": "TensorFlow, PyTorch, scikit-learn, NLP"
+      "level": 82,
+      "keywords": "NLP, OpenAI API, Prompt Engineering, scikit-learn"
     },
     {
-      "name": "System Design",
-      "level": 92,
-      "keywords": "Microservices, Scalability, Performance Optimization"
+      "name": "Tools & Practices",
+      "level": 88,
+      "keywords": "Git, Agile/Scrum, Jira, Figma, Playwright Testing"
     }
   ]
 }

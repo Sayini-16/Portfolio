@@ -263,9 +263,35 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Terminal Block Cursor */
+.terminal-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  background-color: currentColor;
+  animation: cursorBlink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Hide native caret and show custom cursor */
+.terminal-input {
+  caret-color: transparent;
+}
+
+.terminal-input::selection {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .rotate-3d { animation: none; }
   .animate-pulse-slow { animation: none; }
   .glow-pulse { animation: none; }
+  .terminal-cursor { animation: none; opacity: 1; }
 }

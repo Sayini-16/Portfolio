@@ -1,59 +1,29 @@
 {
   "experience": [
     {
-      "title": "Senior Software Engineer",
-      "company": "TechCorp",
-      "start": "Jan 2022",
+      "title": "Software Engineer",
+      "company": "ScholarshipAuditions.com",
+      "start": "Oct 2024",
       "end": "Present",
-      "location": "San Francisco, CA",
+      "location": "Nashville, TN",
       "bullets": [
-        "Leading a team of 8 developers across 3 major products",
-        "Architected microservices platform serving 1M+ requests/day",
-        "Reduced infrastructure costs by 40% through optimization",
-        "Mentored 12 junior developers, 3 promoted to mid-level"
+        "Architected backend for 500K+ users: real-time messaging, Elasticsearch search, AWS infrastructure",
+        "Boosted performance 40% via Celery async processing & query optimization",
+        "Built S3/Lambda media pipeline for 10K+ video uploads"
       ],
-      "tech": ["React", "Node.js", "Kubernetes", "AWS", "PostgreSQL"]
+      "tech": ["Django", "Angular", "AWS", "PostgreSQL", "Redis"]
     },
     {
-      "title": "Full Stack Developer",
-      "company": "StartupXYZ",
-      "start": "Mar 2020",
-      "end": "Dec 2021",
-      "location": "Remote",
+      "title": "Software Engineer Intern",
+      "company": "ScholarshipAuditions.com",
+      "start": "Jul 2024",
+      "end": "Oct 2024",
+      "location": "Nashville, TN",
       "bullets": [
-        "Built the platform from 0 to 50K users in 18 months",
-        "Implemented real-time collaboration features",
-        "Achieved 99.9% uptime with robust monitoring",
-        "Raised Series A ($5M) based on technical excellence"
+        "Built end-to-end features: student profiles, video uploads, teacher workflows",
+        "Streamlined deployments with Docker containerization"
       ],
-      "tech": ["Next.js", "Python", "MongoDB", "Redis", "GCP"]
-    },
-    {
-      "title": "Software Developer",
-      "company": "WebAgency Pro",
-      "start": "Jun 2019",
-      "end": "Feb 2020",
-      "location": "New York, NY",
-      "bullets": [
-        "Developed 20+ responsive websites for enterprise clients",
-        "Improved page load times by 60% on average",
-        "Introduced modern dev practices (CI/CD, code reviews)"
-      ],
-      "tech": ["React", "Node.js", "MySQL", "AWS"]
-    },
-    {
-      "title": "Junior Developer",
-      "company": "Digital Solutions",
-      "start": "Jan 2019",
-      "end": "May 2019",
-      "location": "New York, NY",
-      "bullets": [
-        "First role out of bootcamp, learned professional development",
-        "Contributed to 5 client projects",
-        "Gained foundation in full-stack development"
-      ],
-      "tech": ["JavaScript", "React", "Node.js"]
+      "tech": ["Django", "Angular", "Docker", "PostgreSQL"]
     }
   ]
 }
-

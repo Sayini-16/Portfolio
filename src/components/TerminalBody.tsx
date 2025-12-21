@@ -63,7 +63,7 @@ export const TerminalBody: React.FC = () => {
             }}
             layout
           >
-            <HistoryLine entry={entry} />
+            <HistoryLine entry={entry} isLatest={index === history.length - 1} />
           </motion.div>
         ))}
       </AnimatePresence>
