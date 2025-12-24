@@ -36,7 +36,7 @@ jobs:
         env:
           # Point to model hosted on jsDelivr CDN (from GitHub Releases)
           # Update this URL after uploading your model to a GitHub Release
-          VITE_MODEL_URL: ${{ vars.MODEL_URL }}
+          VITE_MODEL_URL: ${{ vars.VITE_MODEL_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
