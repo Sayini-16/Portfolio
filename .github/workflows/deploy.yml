@@ -34,9 +34,10 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Point to model hosted on jsDelivr CDN (from GitHub Releases)
-          # Update this URL after uploading your model to a GitHub Release
+          # Point to model hosted on jsDelivr CDN (from GitHub Releases)        
+          # Update this URL after uploading your model to a GitHub Release      
           VITE_MODEL_URL: ${{ vars.MODEL_URL }}
+          VITE_BASE: /${{ github.event.repository.name }}/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

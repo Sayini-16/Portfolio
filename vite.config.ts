@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
+const base = process.env.VITE_BASE ?? './'
+
 export default defineConfig({
-  // Use relative URLs for assets so the app works when deployed to a subpath
-  base: './',
+  // Use a GH Pages base when provided (e.g., /repo/); fallback keeps local dev simple.
+  base,
   plugins: [react()],
   build: {
     rollupOptions: {
