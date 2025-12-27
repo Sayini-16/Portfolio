@@ -9,6 +9,15 @@
         "GPA: 3.66/4.0",
         "Coursework: Algorithms, Advanced Data Structures, Distributed Systems, Data Engineering, Mobile Computing, UX Design"
       ]
+    },
+     {
+      "degree": "Bachelor of Technology in Computer Science",
+      "institution": "Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering &Technology",
+      "start": "Aug 2019",
+      "end": "June 2023",
+      "details": [
+        "GPA: 8.82/10.0",
+      ]
     }
   ],
   "certifications": [
