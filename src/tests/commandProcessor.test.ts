@@ -20,6 +20,8 @@ describe('processCommand', () => {
     runCommand: vi.fn(),
     theme: 'matrix',
     setTheme: vi.fn(),
+    persistHistory: false,
+    setPersistHistory: vi.fn(),
   };
 
   it('should return null for an empty command', () => {

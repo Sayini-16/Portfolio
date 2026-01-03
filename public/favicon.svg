@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    /* Default: Cyan for dark mode */
+    .prompt { fill: #00ffff; }
+    .cursor { fill: #ff00ff; animation: blink 1s step-end infinite; }
+
+    /* Optional: Swap colors if the user prefers a light theme */
+    @media (prefers-color-scheme: light) {
+      .prompt { fill: #222; }
+      .cursor { fill: #555; }
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+  
+  <path class="prompt" d="M8 8 L16 16 L8 24 L11 24 L19 16 L11 8 Z" />
+  
+  <rect class="cursor" x="20" y="22" width="8" height="2" />
+</svg>

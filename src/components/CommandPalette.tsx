@@ -1,4 +1,4 @@
-/**
+  /**
  * CommandPalette - Mobile-friendly command palette
  * Appears as centered modal on desktop, bottom sheet on mobile
  */

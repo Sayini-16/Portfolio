@@ -10,6 +10,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { themes, type ThemeKey, type Theme } from '../lib/themes';
 import { processCommand } from '../lib/commandProcessor';
 import { commands } from '../lib/commands';
+import { trackCommandUsage } from '../lib/analytics';
 
 // Types
 export interface HistoryEntry {
@@ -26,6 +27,8 @@ interface TerminalState {
   // Input state
   input: string;
   suggestions: string[];
+  tabCycleQuery: string | null;
+  tabCycleIndex: number;
 
   // History state
   history: HistoryEntry[];
@@ -37,6 +40,9 @@ interface TerminalState {
 
   // Refs (not persisted, managed separately)
   isTyping: boolean;
+
+  // Persistence
+  persistHistory: boolean;
 }
 
 interface TerminalActions {
@@ -44,6 +50,7 @@ interface TerminalActions {
   setInput: (input: string) => void;
   setSuggestions: (suggestions: string[]) => void;
   clearSuggestions: () => void;
+  resetTabCycle: () => void;
 
   // History actions
   addHistoryEntry: (entry: HistoryEntry) => void;
@@ -53,6 +60,9 @@ interface TerminalActions {
   // Theme actions
   setTheme: (theme: ThemeKey) => void;
   cycleTheme: () => void;
+
+  // Persistence actions
+  setPersistHistory: (persist: boolean) => void;
 
   // Command actions
   runCommand: (cmd: string) => void;
@@ -65,17 +75,18 @@ interface TerminalActions {
   // Initialize welcome message
   initializeWelcome: () => void;
   updateWelcomeTheme: () => void;
+
 }
 
 type TerminalStore = TerminalState & TerminalActions;
 
 // Welcome message generator
-const makeWelcome = (themeName: string) => `╔═══════════════════════════════════════════════════════════╗
-║     Welcome to Portfolio Terminal v2.0                    ║
-║                                                           ║
-║  Type 'help' for commands                                 ║
-║  Press TAB for autocomplete • Use ↑/↓ for history         ║
-╚═══════════════════════════════════════════════════════════╝
+const makeWelcome = (themeName: string) => `╔═══════════════════════════════════════════════════╗
+║     Welcome to Portfolio Terminal v2.0            ║
+║                                                   ║
+║  Type 'help' for commands                         ║
+║  Press TAB for autocomplete • Use ↑/↓ for history ║
+╚═══════════════════════════════════════════════════╝
 
 Current theme: ${themeName}
 Type 'themes' to list color schemes.`;
@@ -87,11 +98,14 @@ export const useTerminalStore = create<TerminalStore>()(
       // Initial state
       input: '',
       suggestions: [],
+      tabCycleQuery: null,
+      tabCycleIndex: -1,
       history: [],
       commandHistory: [],
       historyIndex: -1,
       theme: 'matrix',
       isTyping: false,
+      persistHistory: false,
 
       // Input actions
       setInput: (input) => set({ input }),
@@ -99,6 +113,8 @@ export const useTerminalStore = create<TerminalStore>()(
       setSuggestions: (suggestions) => set({ suggestions }),
 
       clearSuggestions: () => set({ suggestions: [] }),
+
+      resetTabCycle: () => set({ tabCycleQuery: null, tabCycleIndex: -1 }),
 
       // History actions
       addHistoryEntry: (entry) =>
@@ -128,14 +144,15 @@ export const useTerminalStore = create<TerminalStore>()(
         state.setTheme(themeKeys[nextIndex]);
       },
 
+      // Persistence actions
+      setPersistHistory: (persist) => set({ persistHistory: persist }),
+
       // Command execution
       runCommand: (cmd) => {
         const value = cmd.trim();
         if (!value) return;
 
         const state = get();
-
-        // Create a compatible state object for processCommand
         const terminalState = {
           input: state.input,
           setInput: state.setInput,
@@ -152,9 +169,13 @@ export const useTerminalStore = create<TerminalStore>()(
           runCommand: state.runCommand,
           theme: state.theme,
           setTheme: state.setTheme,
+          persistHistory: state.persistHistory,
+          setPersistHistory: state.setPersistHistory,
         };
 
         const output = processCommand(value, terminalState);
+        const commandName = value.split(/\s+/)[0].toLowerCase();
+        trackCommandUsage(commandName, output?.type ?? 'noop');
 
         if (output) {
           const newEntry: HistoryEntry = {
@@ -168,6 +189,8 @@ export const useTerminalStore = create<TerminalStore>()(
             s.historyIndex = -1;
             s.input = '';
             s.suggestions = [];
+            s.tabCycleQuery = null;
+            s.tabCycleIndex = -1;
           });
         } else {
           set((s) => {
@@ -175,6 +198,8 @@ export const useTerminalStore = create<TerminalStore>()(
             s.historyIndex = -1;
             s.input = '';
             s.suggestions = [];
+            s.tabCycleQuery = null;
+            s.tabCycleIndex = -1;
           });
         }
       },
@@ -189,6 +214,8 @@ export const useTerminalStore = create<TerminalStore>()(
           set({
             historyIndex: newIndex,
             input: state.commandHistory[state.commandHistory.length - 1 - newIndex],
+            tabCycleQuery: null,
+            tabCycleIndex: -1,
           });
         }
       },
@@ -200,9 +227,11 @@ export const useTerminalStore = create<TerminalStore>()(
           set({
             historyIndex: newIndex,
             input: state.commandHistory[state.commandHistory.length - 1 - newIndex],
+            tabCycleQuery: null,
+            tabCycleIndex: -1,
           });
         } else {
-          set({ historyIndex: -1, input: '' });
+          set({ historyIndex: -1, input: '', tabCycleQuery: null, tabCycleIndex: -1 });
         }
       },
 
@@ -211,28 +240,54 @@ export const useTerminalStore = create<TerminalStore>()(
         const trimmedInput = state.input.trim();
         if (!trimmedInput) return;
 
+        const query = state.tabCycleQuery ?? trimmedInput;
         const matchingCommands = Object.keys(commands).filter((cmd) =>
-          cmd.startsWith(trimmedInput.toLowerCase())
+          cmd.startsWith(query.toLowerCase())
         );
 
-        if (matchingCommands.length === 1) {
-          set({ input: matchingCommands[0] + ' ', suggestions: [] });
-        } else if (matchingCommands.length > 1) {
-          set({ suggestions: matchingCommands });
+        if (matchingCommands.length === 0) {
+          set({ suggestions: [], tabCycleQuery: null, tabCycleIndex: -1 });
+          return;
         }
+
+        if (!state.tabCycleQuery) {
+          if (matchingCommands.length === 1) {
+            set({
+              input: matchingCommands[0] + ' ',
+              suggestions: [],
+              tabCycleQuery: null,
+              tabCycleIndex: -1,
+            });
+            return;
+          }
+
+          set({
+            input: matchingCommands[0] + ' ',
+            suggestions: matchingCommands,
+            tabCycleQuery: query,
+            tabCycleIndex: 0,
+          });
+          return;
+        }
+
+        const nextIndex = (state.tabCycleIndex + 1) % matchingCommands.length;
+        set({
+          input: matchingCommands[nextIndex] + ' ',
+          suggestions: matchingCommands,
+          tabCycleIndex: nextIndex,
+        });
       },
 
       // Initialize welcome message
       initializeWelcome: () => {
         const state = get();
-        if (state.history.length === 0) {
-          set((s) => {
-            s.history.push({
-              output: { type: 'welcome', content: makeWelcome(themes[s.theme].name) },
-              timestamp: new Date().toLocaleTimeString(),
-            });
+        if (state.history.length !== 0) return;
+        set((s) => {
+          s.history.push({
+            output: { type: 'welcome', content: makeWelcome(themes[s.theme].name) },
+            timestamp: new Date().toLocaleTimeString(),
           });
-        }
+        });
       },
 
       // Update welcome message when theme changes
@@ -259,13 +314,15 @@ export const useTerminalStore = create<TerminalStore>()(
           });
         }, 300);
       },
+
     })),
     {
       name: 'terminal-storage',
       partialize: (state) => ({
         theme: state.theme,
-        // Optionally persist command history
-        // commandHistory: state.commandHistory,
+        persistHistory: state.persistHistory,
+        history: state.persistHistory ? state.history : [],
+        commandHistory: state.persistHistory ? state.commandHistory : [],
       }),
     }
   )
@@ -285,6 +342,7 @@ export const useTerminalActions = () =>
       setInput: s.setInput,
       setSuggestions: s.setSuggestions,
       clearSuggestions: s.clearSuggestions,
+      resetTabCycle: s.resetTabCycle,
       runCommand: s.runCommand,
       setTheme: s.setTheme,
       cycleTheme: s.cycleTheme,

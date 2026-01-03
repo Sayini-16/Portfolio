@@ -244,27 +244,79 @@ body {
   touch-action: manipulation;
 }
 
+/* Themed scrollbars */
+.themed-scrollbars {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, rgba(255, 255, 255, 0.3))
+    var(--scrollbar-track, transparent);
+}
+
+.themed-scrollbars * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, rgba(255, 255, 255, 0.3))
+    var(--scrollbar-track, transparent);
+}
+
+.themed-scrollbars::-webkit-scrollbar,
+.themed-scrollbars *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.themed-scrollbars::-webkit-scrollbar-track,
+.themed-scrollbars *::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, transparent);
+}
+
+.themed-scrollbars::-webkit-scrollbar-thumb,
+.themed-scrollbars *::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, rgba(255, 255, 255, 0.2));
+  border-radius: 6px;
+  border: 1px solid var(--scrollbar-track, transparent);
+}
+
+.themed-scrollbars::-webkit-scrollbar-thumb:hover,
+.themed-scrollbars *::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover, rgba(255, 255, 255, 0.35));
+}
+
 /* Custom scrollbar for webkit browsers */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, rgba(255, 255, 255, 0.3))
+    var(--scrollbar-track, transparent);
+}
+
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--scrollbar-track, transparent);
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--scrollbar-thumb, rgba(255, 255, 255, 0.15));
   border-radius: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--scrollbar-thumb-hover, rgba(255, 255, 255, 0.25));
 }
 
 /* Terminal Block Cursor */
 .terminal-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  background-color: currentColor;
+  animation: cursorBlink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+.typewriter-cursor {
   display: inline-block;
   width: 0.6em;
   height: 1.1em;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { prefersReducedMotion } from "../lib/motion";
 
 interface TypewriterTextProps {
@@ -8,26 +7,31 @@ interface TypewriterTextProps {
   className?: string;
   style?: React.CSSProperties;
   onComplete?: () => void;
+  respectReducedMotion?: boolean;
+  onProgress?: (displayedLength: number) => void;
 }
 
 export const TypewriterText: React.FC<TypewriterTextProps> = ({
   text,
-  speed = 800, // default: 800 chars/sec (fast but visible)
+  speed = 10, // default: visible typing pace
   className = "",
   style = {},
   onComplete,
+  respectReducedMotion = true,
+  onProgress,
 }) => {
   const [displayedLength, setDisplayedLength] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
   // Skip animation if user prefers reduced motion
-  const skipAnimation = prefersReducedMotion();
+  const skipAnimation = respectReducedMotion && prefersReducedMotion();
 
   useEffect(() => {
     if (skipAnimation) {
       setDisplayedLength(text.length);
       setIsComplete(true);
+      onProgress?.(text.length);
       onComplete?.();
       return;
     }
@@ -41,6 +45,7 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
     intervalRef.current = window.setInterval(() => {
       setDisplayedLength((prev) => {
         const next = prev + 1;
+        onProgress?.(next);
         if (next >= text.length) {
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
@@ -66,14 +71,7 @@ export const TypewriterText: React.FC<TypewriterTextProps> = ({
   return (
     <span className={className} style={style}>
       {displayedText}
-      {showCursor && (
-        <motion.span
-          className="inline-block w-2 h-4 ml-0.5 align-middle"
-          style={{ backgroundColor: "currentColor" }}
-          animate={{ opacity: [1, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-        />
-      )}
+      {showCursor && <span className="typewriter-cursor" />}
     </span>
   );
 };

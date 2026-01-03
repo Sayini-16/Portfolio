@@ -12,6 +12,13 @@ import contactData from "../data/contact.json";
 
 import type { HistoryEntry } from "../store/terminalStore";
 
+const getResumeUrl = () => {
+  const base = import.meta.env.BASE_URL || "/";
+  if (import.meta.env.DEV) return `${base}resume.pdf`;
+  if (typeof window === "undefined") return `${base}resume.pdf`;
+  return new URL(`${base}resume.pdf`, window.location.origin).toString();
+};
+
 export type CommandOutput = {
   type: "info" | "list" | "success" | "error" | "welcome" | "progress";
   content: string;
@@ -34,6 +41,8 @@ export type CommandContext = {
   runCommand: (cmd: string) => void;
   theme: ThemeKey;
   setTheme: (theme: ThemeKey) => void;
+  persistHistory: boolean;
+  setPersistHistory: (persist: boolean) => void;
 };
 
 export type Command = {
@@ -51,6 +60,7 @@ export type CommandKey =
   | "achievements"
   | "contact"
   | "resume"
+  | "download"
   | "social"
   | "history"
   | "theme"
@@ -95,10 +105,12 @@ export const commands: Record<CommandKey, Command> = {
         "  achievements - Key accomplishments",
         "  contact      - Contact information",
         "  resume       - Download my resume",
+        "  download     - Download my resume",
         "  social       - Social links",
         "  theme        - Change terminal theme",
         "  themes       - List available themes",
         "  history      - Show command history",
+        "  history persist on|off - Toggle history persistence",
         "  clear        - Clear the terminal",
         "  help         - Show this help",
         "",
@@ -157,23 +169,36 @@ export const commands: Record<CommandKey, Command> = {
   education: {
     description: "View educational background",
     execute: () => {
-      const degrees = educationData.degrees
-        .map((d) =>
-          [
-            `- ${d.degree}`,
-            `  ${d.institution} | ${d.start} - ${d.end}`,
-            ...(d.details || []).map((x: string) => `  - ${x}`),
-            "",
-          ].join("\n")
-        )
-        .join("");
-      const certs = educationData.certifications?.length
-        ? ["Certifications:", ...educationData.certifications.map((c: string) => `- ${c}`), ""].join("\n")
-        : "";
-      const learning = educationData.learning?.length
-        ? ["Continuous Learning:", ...educationData.learning.map((l: string) => `- ${l}`)].join("\n")
-        : "";
-      return { type: "info", content: [degrees, certs, learning].filter(Boolean).join("\n") };
+      const formatDegree = (d: typeof educationData.degrees[0]) => {
+        const header = d.degree;
+        const line = `${d.institution} | ${d.start} - ${d.end}`;
+        const details = (d.details || []).map((x: string) => `  - ${x}`);
+        return [header, `  ${line}`, ...details].join("\n");
+      };
+
+      const sections: string[] = [];
+      if (educationData.degrees?.length) {
+        sections.push("Education:", "");
+        sections.push(educationData.degrees.map(formatDegree).join("\n\n"));
+      }
+
+      if (educationData.certifications?.length) {
+        if (sections.length) sections.push("");
+        sections.push(
+          "Certifications:",
+          ...educationData.certifications.map((c: string) => `  - ${c}`)
+        );
+      }
+
+      if (educationData.learning?.length) {
+        if (sections.length) sections.push("");
+        sections.push(
+          "Continuous Learning:",
+          ...educationData.learning.map((l: string) => `  - ${l}`)
+        );
+      }
+
+      return { type: "info", content: sections.join("\n") };
     },
   },
   achievements: {
@@ -202,7 +227,17 @@ export const commands: Record<CommandKey, Command> = {
   },
   resume: {
     description: "Download resume",
-    execute: () => ({ type: "success", content: "Resume download is not enabled in this demo." }),
+    execute: () => ({
+      type: "success",
+      content: `Resume ready:\n${getResumeUrl()}`,
+    }),
+  },
+  download: {
+    description: "Download resume",
+    execute: () => ({
+      type: "success",
+      content: `Download:\n${getResumeUrl()}`,
+    }),
   },
   social: {
     description: "View social media links",
@@ -213,13 +248,34 @@ export const commands: Record<CommandKey, Command> = {
   },
   history: {
     description: "Show command history",
-    execute: ({ commandHistory }) => ({
-      type: "info",
-      content:
-        commandHistory.length > 0
-          ? `Command History:\n\n${commandHistory.map((cmd, i) => `  ${i + 1}. ${cmd}`).join("\n")}`
-          : "No command history yet. Start typing commands!",
-    }),
+    execute: ({ commandHistory, persistHistory, setPersistHistory }, args) => {
+      const tokens = args?.trim().split(/\s+/) ?? [];
+      if (tokens[0] === "persist") {
+        const next = tokens[1]?.toLowerCase();
+        if (next !== "on" && next !== "off") {
+          return {
+            type: "error",
+            content: "Usage: history persist on|off",
+          };
+        }
+        const enable = next === "on";
+        setPersistHistory(enable);
+        return {
+          type: "success",
+          content: `History persistence ${enable ? "enabled" : "disabled"}.`,
+        };
+      }
+
+      return {
+        type: "info",
+        content:
+          commandHistory.length > 0
+            ? `Command History:\n\n${commandHistory.map((cmd, i) => `  ${i + 1}. ${cmd}`).join("\n")}`
+            : persistHistory
+              ? "No command history yet. Run some commands to persist them."
+              : "No command history yet. Start typing commands!",
+      };
+    },
   },
   theme: {
     description: "Change terminal theme",
@@ -266,4 +322,3 @@ export const commands: Record<CommandKey, Command> = {
     },
   },
 };
-

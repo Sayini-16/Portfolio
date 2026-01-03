@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useHistory, useCurrentTheme, useSuggestions, useTerminalActions } from "../store/terminalStore";
 import { HistoryLine } from "./HistoryLine";
@@ -16,6 +16,8 @@ export const TerminalBody: React.FC = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null!);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const [isOutputTyping, setIsOutputTyping] = useState(false);
+  const typingRef = useRef(false);
 
   // Auto-scroll when new history entries are added
   const prevLenRef = useRef<number>(0);
@@ -34,6 +36,24 @@ export const TerminalBody: React.FC = () => {
 
     prevLenRef.current = cur;
   }, [history]);
+
+  useEffect(() => {
+    if (history.length === 0) {
+      typingRef.current = false;
+      setIsOutputTyping(false);
+      return;
+    }
+
+    const latest = history[history.length - 1];
+    if (!latest.output) {
+      typingRef.current = false;
+      setIsOutputTyping(false);
+    }
+  }, [history]);
+
+  const scrollToBottom = (behavior: ScrollBehavior) => {
+    bottomRef.current?.scrollIntoView({ behavior, block: "end" });
+  };
 
   return (
     <div
@@ -63,13 +83,29 @@ export const TerminalBody: React.FC = () => {
             }}
             layout
           >
-            <HistoryLine entry={entry} isLatest={index === history.length - 1} />
+            <HistoryLine
+              entry={entry}
+              isLatest={index === history.length - 1}
+              onTyping={() => scrollToBottom("auto")}
+              onTypingStart={() => {
+                if (!typingRef.current) {
+                  typingRef.current = true;
+                  setIsOutputTyping(true);
+                }
+              }}
+              onTypingComplete={() => {
+                if (typingRef.current) {
+                  typingRef.current = false;
+                  setIsOutputTyping(false);
+                }
+              }}
+            />
           </motion.div>
         ))}
       </AnimatePresence>
 
       <div className="relative">
-        <TerminalInput inputRef={inputRef} />
+        <TerminalInput inputRef={inputRef} hidden={isOutputTyping} />
         <AnimatePresence>
           {suggestions.length > 0 && (
             <motion.div

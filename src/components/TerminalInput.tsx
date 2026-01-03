@@ -9,9 +9,10 @@ import { commands } from "../lib/commands";
 
 interface TerminalInputProps {
   inputRef: React.RefObject<HTMLInputElement>;
+  hidden?: boolean;
 }
 
-export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef }) => {
+export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef, hidden = false }) => {
   const currentTheme = useCurrentTheme();
   const input = useInput();
   const {
@@ -21,6 +22,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef }) => {
     navigateHistoryUp,
     navigateHistoryDown,
     handleTabComplete,
+    resetTabCycle,
   } = useTerminalActions();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,11 +42,13 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef }) => {
       navigateHistoryDown();
     } else if (e.key === "Escape") {
       setSuggestions([]);
+      resetTabCycle();
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
+    resetTabCycle();
     if (e.target.value.length > 0) {
       const matchingCommands = Object.keys(commands).filter((cmd) =>
         cmd.startsWith(e.target.value.toLowerCase())
@@ -54,6 +58,8 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef }) => {
       setSuggestions([]);
     }
   };
+
+  if (hidden) return null;
 
   return (
     <form onSubmit={handleSubmit} className="w-full">

@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# Terminal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A cyberpunk terminal style portfolio built with React, Vite, and Tailwind CSS. It behaves like a real CLI with commands, theme switching, typewriter output, and a responsive layout.
 
-Currently, two official plugins are available:
+## Features
+- Terminal UI with commands, history, and autocomplete (Tab cycles matches).
+- Theme system with dynamic favicon colors.
+- Typewriter output with auto scroll and link detection.
+- Responsive layout; 3D model is hidden on small screens.
+- Resume download served from the public folder.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- React + TypeScript + Vite
+- Tailwind CSS
+- Zustand (state)
+- Framer Motion (animation)
+- Three.js / react-three-fiber (3D viewer)
 
-## React Compiler
+## Commands
+- `help` - Show available commands
+- `about` - Learn about me
+- `projects` - View featured projects
+- `skills` - See technical skills
+- `experience` - Work experience
+- `education` - Education and certifications
+- `achievements` - Key accomplishments
+- `contact` - Contact information
+- `resume` - Resume link
+- `download` - Resume link
+- `social` - Social links
+- `history` - Show command history
+- `history persist on|off` - Toggle history persistence
+- `theme` - Change terminal theme
+- `themes` - List available themes
+- `clear` - Clear the terminal
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Build and preview:
+```bash
+npm run build
+npm run preview
 ```
+
+Tests:
+```bash
+npm run test
+```
+
+## Configuration
+Environment variables (optional):
+- `VITE_MODEL_URL` - URL to a GLTF/GLB model for the 3D viewer.
+- `VITE_MODEL_PREVIEW` - Optional preview image for the model.
+- `VITE_BASE` - Base path for deployment (e.g., `/your-repo/` for GitHub Pages).
+
+## Content Editing
+- Update copy in `src/data/*.json`.
+- Adjust themes in `src/lib/themes.ts`.
+- Replace the resume at `public/resume.pdf`.
+- Favicon SVG lives at `public/favicon.svg` and is updated dynamically when the theme changes.
+
+## Deploy (GitHub Pages)
+Set a base path so asset links and resume download work under a repo path:
+```bash
+VITE_BASE=/your-repo/ npm run build
+```
+Then deploy the `dist` folder. The resume link uses the base path automatically.
+
+## Analytics (Optional)
+If you add Plausible, Umami, or Google Analytics scripts, terminal commands will emit a `terminal_command` event with `{ command, result }`.

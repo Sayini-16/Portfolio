@@ -55,9 +55,15 @@ export const StatusBar: React.FC = () => {
               backgroundColor: isTyping
                 ? currentTheme.colors.warning
                 : currentTheme.colors.success,
-              boxShadow: `0 0 4px ${isTyping ? currentTheme.colors.warning : currentTheme.colors.success}`,
+              boxShadow: `0 0 4px ${
+                isTyping
+                  ? currentTheme.colors.warning
+                  : currentTheme.colors.success
+              }`,
             }}
-            animate={reducedMotion ? {} : pulseVariants[isTyping ? "typing" : "ready"]}
+            animate={
+              reducedMotion ? {} : pulseVariants[isTyping ? "typing" : "ready"]
+            }
             transition={{
               duration: isTyping ? 0.6 : 2,
               repeat: Infinity,
@@ -92,8 +98,10 @@ export const StatusBar: React.FC = () => {
           className="flex items-center gap-1.5"
         >
           <span style={{ color: currentTheme.colors.textMuted }}>
-            <span style={{ color: currentTheme.colors.accent }}>{commandCount}</span>
-            {" "}cmd{commandCount !== 1 ? "s" : ""}
+            <span style={{ color: currentTheme.colors.accent }}>
+              {commandCount}
+            </span>{" "}
+            cmd{commandCount !== 1 ? "s" : ""}
           </span>
         </motion.div>
       </div>
@@ -104,12 +112,12 @@ export const StatusBar: React.FC = () => {
         <div className="hidden sm:flex items-center gap-3 text-[10px] opacity-70">
           <ShortcutHint keys="TAB" label="complete" />
           <ShortcutHint keys="↑↓" label="history" />
-          <span className="hidden md:inline">
+          {/* <span className="hidden md:inline">
             <ShortcutHint keys="⌘K" label="palette" />
           </span>
           <span className="hidden md:inline">
             <ShortcutHint keys="⌘T" label="theme" />
-          </span>
+          </span> */}
         </div>
 
         {/* Separator */}
@@ -133,7 +141,10 @@ export const StatusBar: React.FC = () => {
 };
 
 // Small helper component for keyboard shortcuts
-const ShortcutHint: React.FC<{ keys: string; label: string }> = ({ keys, label }) => (
+const ShortcutHint: React.FC<{ keys: string; label: string }> = ({
+  keys,
+  label,
+}) => (
   <span className="flex items-center gap-1">
     <kbd
       className="px-1 py-0.5 rounded text-[9px] font-mono"
