@@ -80,16 +80,18 @@ interface TerminalActions {
 
 type TerminalStore = TerminalState & TerminalActions;
 
-// Welcome message generator
-const makeWelcome = (themeName: string) => `╔═══════════════════════════════════════════════════╗
-║     Welcome to Portfolio Terminal v2.0            ║
-║                                                   ║
-║  Type 'help' for commands                         ║
-║  Press TAB for autocomplete • Use ↑/↓ for history ║
-╚═══════════════════════════════════════════════════╝
+// Welcome message generator - mobile-friendly format
+const makeWelcome = (themeName: string) => `┌─────────────────────────────┐
+│         Welcome!            │
+│  Portfolio Terminal v2.0    │
+└─────────────────────────────┘
+Try these commands:
+• help     - Show all commands
+• about    - Learn about me
+• contact  - Get in touch
 
-Current theme: ${themeName}
-Type 'themes' to list color schemes.`;
+Theme: ${themeName}
+Tip: Tap commands above or type below`;
 
 // Create the store
 export const useTerminalStore = create<TerminalStore>()(

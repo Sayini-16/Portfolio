@@ -137,14 +137,17 @@ function App() {
             anime={{ delay: 100 }}
           >
             <div
-              className="flex flex-col h-full w-full m-2 sm:m-3 rounded-lg border border-white/10 shadow-xl"
+              className="flex flex-col h-full w-full m-2 sm:m-3 rounded-lg border border-white/10 shadow-xl overflow-hidden"
               style={{ background: "rgba(0,0,0,0.35)" }}
             >
-              <div className="sticky top-0 z-10">
+              {/* Header - fixed at top, won't scroll */}
+              <div className="flex-shrink-0 z-10">
                 <TerminalHeader />
               </div>
+              {/* Body - scrollable content area */}
               <TerminalBody />
-              <div className="sticky bottom-0 z-10">
+              {/* Footer - fixed at bottom, won't scroll */}
+              <div className="flex-shrink-0 z-10">
                 <StatusBar />
               </div>
             </div>

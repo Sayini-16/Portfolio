@@ -2,16 +2,19 @@
   "experience": [
     {
       "title": "Software Engineer",
-      "company": "ScholarshipAuditions.com",
+      "company": "Accoladi.com (ScholarshipAuditions.com)",
       "start": "Oct 2024",
       "end": "Present",
       "location": "Nashville, TN",
       "bullets": [
-        "Architected backend for 500K+ users: real-time messaging, Elasticsearch search, AWS infrastructure",
-        "Boosted performance 40% via Celery async processing & query optimization",
-        "Built S3/Lambda media pipeline for 10K+ video uploads"
+        "Reduced API calls 35% with Angular RxJS shareReplay, improving 100K+ daily requests",
+        "Secured auth for 50K+ users: cookie-based auth, CSRF, refresh-token logic, role guards",
+        "Built AWS Lambda + SQS pipeline for 10x faster bulk student imports",
+        "Reduced staff effort 40% with Django/DRF APIs for media, chat, tickets, bulk-jobs",
+        "Automated 100% post-payment onboarding via Stripe webhooks + DocuSeal",
+        "Cut incident triage 50% with RxJS WebSocket streams + Sentry/AWS X-Ray tracing"
       ],
-      "tech": ["Django", "Angular", "AWS", "PostgreSQL", "Redis"]
+      "tech": ["Angular", "Django", "AWS Lambda", "SQS", "RxJS", "Stripe", "Sentry"]
     },
     {
       "title": "Software Engineer Intern",
@@ -20,10 +23,11 @@
       "end": "Oct 2024",
       "location": "Nashville, TN",
       "bullets": [
-        "Built end-to-end features: student profiles, video uploads, teacher workflows",
-        "Streamlined deployments with Docker containerization"
+        "Shipped 2 major features in 6 weeks, reducing support tickets by 25%",
+        "Resolved 15+ production issues via log analysis and root-cause debugging",
+        "Reduced deployment time 30% with Docker containerization and CI/CD"
       ],
-      "tech": ["Django", "Angular", "Docker", "PostgreSQL"]
+      "tech": ["Django", "Angular", "Docker", "PostgreSQL", "CI/CD"]
     }
   ]
 }

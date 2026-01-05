@@ -60,7 +60,7 @@ const CommandButton: React.FC<{
   return (
     <motion.button
       onClick={onClick}
-      className="inline-block text-[10px] sm:text-[11px] mr-1.5 sm:mr-2 mb-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border touch-manipulation"
+      className="text-[10px] sm:text-[11px] sm:mr-2 sm:mb-1 px-2 py-1 sm:px-2 sm:py-1 rounded border touch-manipulation active:scale-95 sm:active:scale-100"
       style={{
         borderColor,
         color: textColor,
@@ -179,9 +179,9 @@ export const TerminalHeader: React.FC = () => {
         </motion.button>
       </div>
 
-      {/* Command bar */}
+      {/* Command bar - wraps on mobile, scrolls on desktop */}
       <div
-        className="px-2 py-1.5 sm:px-3 sm:py-2 border-t overflow-x-auto whitespace-nowrap scrollbar-thin"
+        className="px-2 py-1.5 sm:px-3 sm:py-2 border-t flex flex-wrap gap-1 sm:gap-0 sm:flex-nowrap sm:overflow-x-auto sm:whitespace-nowrap scrollbar-thin"
         style={{ borderColor: `${currentTheme.colors.border}80` }}
       >
         {commandKeys.map((ck) => (

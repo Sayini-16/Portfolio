@@ -16,10 +16,11 @@ export const TerminalBody: React.FC = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null!);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const latestEntryRef = useRef<HTMLDivElement | null>(null);
   const [isOutputTyping, setIsOutputTyping] = useState(false);
   const typingRef = useRef(false);
 
-  // Auto-scroll when new history entries are added
+  // Auto-scroll when new history entries are added - scroll to START of new content
   const prevLenRef = useRef<number>(0);
   useEffect(() => {
     const reduce = prefersReducedMotion();
@@ -27,10 +28,11 @@ export const TerminalBody: React.FC = () => {
     const cur = history.length;
     const appended = cur > prev;
 
-    if (appended) {
-      bottomRef.current?.scrollIntoView({
+    if (appended && latestEntryRef.current) {
+      // Scroll to the START of the new entry so user can watch typing animation
+      latestEntryRef.current.scrollIntoView({
         behavior: reduce ? 'auto' : 'smooth',
-        block: 'end',
+        block: 'start',
       });
     }
 
@@ -51,14 +53,17 @@ export const TerminalBody: React.FC = () => {
     }
   }, [history]);
 
-  const scrollToBottom = (behavior: ScrollBehavior) => {
-    bottomRef.current?.scrollIntoView({ behavior, block: "end" });
+  // Scroll to keep typing content visible - use 'nearest' to avoid jarring jumps
+  const scrollToTypingContent = (behavior: ScrollBehavior) => {
+    if (latestEntryRef.current) {
+      latestEntryRef.current.scrollIntoView({ behavior, block: "nearest" });
+    }
   };
 
   return (
     <div
       ref={terminalRef}
-      className="flex-1 overflow-y-auto p-3 sm:p-4 scroll-smooth"
+      className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 scroll-smooth"
       onClick={() => {
         if (inputRef.current) {
           try {
@@ -70,41 +75,45 @@ export const TerminalBody: React.FC = () => {
       }}
     >
       <AnimatePresence mode="popLayout">
-        {history.map((entry: HistoryEntry, index: number) => (
-          <motion.div
-            key={`history-${index}`}
-            variants={terminalLineVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{
-              duration: durations.fast,
-              ease: [0, 0, 0.2, 1],
-            }}
-            layout
-          >
-            <HistoryLine
-              entry={entry}
-              isLatest={index === history.length - 1}
-              onTyping={() => scrollToBottom("auto")}
-              onTypingStart={() => {
-                if (!typingRef.current) {
-                  typingRef.current = true;
-                  setIsOutputTyping(true);
-                }
+        {history.map((entry: HistoryEntry, index: number) => {
+          const isLatest = index === history.length - 1;
+          return (
+            <motion.div
+              key={`history-${index}`}
+              ref={isLatest ? latestEntryRef : null}
+              variants={terminalLineVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{
+                duration: durations.fast,
+                ease: [0, 0, 0.2, 1],
               }}
-              onTypingComplete={() => {
-                if (typingRef.current) {
-                  typingRef.current = false;
-                  setIsOutputTyping(false);
-                }
-              }}
-            />
-          </motion.div>
-        ))}
+              layout
+            >
+              <HistoryLine
+                entry={entry}
+                isLatest={isLatest}
+                onTyping={() => scrollToTypingContent("auto")}
+                onTypingStart={() => {
+                  if (!typingRef.current) {
+                    typingRef.current = true;
+                    setIsOutputTyping(true);
+                  }
+                }}
+                onTypingComplete={() => {
+                  if (typingRef.current) {
+                    typingRef.current = false;
+                    setIsOutputTyping(false);
+                  }
+                }}
+              />
+            </motion.div>
+          );
+        })}
       </AnimatePresence>
 
-      <div className="relative">
+      <div className="relative mb-8 sm:mb-4">
         <TerminalInput inputRef={inputRef} hidden={isOutputTyping} />
         <AnimatePresence>
           {suggestions.length > 0 && (
@@ -126,7 +135,7 @@ export const TerminalBody: React.FC = () => {
         </AnimatePresence>
       </div>
       {/* Sentinel to ensure the newest content is visible */}
-      <div ref={bottomRef} />
+      <div ref={bottomRef} className="h-2" />
     </div>
   );
 };

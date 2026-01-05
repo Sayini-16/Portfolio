@@ -2,34 +2,29 @@
   "title": "Technical Skills",
   "skills": [
     {
-      "name": "Backend Development",
+      "name": "Languages",
       "level": 92,
-      "keywords": "Python, Django, Node.js, REST APIs, Django Channels"
+      "keywords": "Python, JavaScript, TypeScript, Java, SQL, C++"
     },
     {
-      "name": "Frontend Development",
-      "level": 88,
-      "keywords": "React.js, Angular, JavaScript, TypeScript, Tailwind CSS"
-    },
-    {
-      "name": "Databases & Caching",
+      "name": "Frontend",
       "level": 90,
-      "keywords": "PostgreSQL, MongoDB, Redis, Elasticsearch, Firebase"
+      "keywords": "Angular, React, RxJS, PrimeNG, Chakra UI, Material, Vite"
+    },
+    {
+      "name": "Backend",
+      "level": 92,
+      "keywords": "Django, DRF, Node.js, REST APIs, GraphQL, WebSockets"
     },
     {
       "name": "Cloud & DevOps",
-      "level": 85,
-      "keywords": "AWS (ECS, RDS, S3, Lambda), Docker, CI/CD, Linux"
-    },
-    {
-      "name": "AI & Machine Learning",
-      "level": 82,
-      "keywords": "NLP, OpenAI API, Prompt Engineering, scikit-learn"
-    },
-    {
-      "name": "Tools & Practices",
       "level": 88,
-      "keywords": "Git, Agile/Scrum, Jira, Figma, Playwright Testing"
+      "keywords": "AWS (Lambda, S3, SQS, ECS, RDS, Cognito), Docker, CI/CD"
+    },
+    {
+      "name": "Databases & Tools",
+      "level": 88,
+      "keywords": "PostgreSQL, DynamoDB, MongoDB, Firebase, Git, Sentry, Stripe"
     }
   ]
 }

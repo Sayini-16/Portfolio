@@ -7,12 +7,12 @@
       "end": "May 2025",
       "details": [
         "GPA: 3.66/4.0",
-        "Coursework: Algorithms, Advanced Data Structures, Distributed Systems, Data Engineering, Mobile Computing, UX Design"
+        "Distributed OS, Advanced DS, Algorithms, Data Engineering, Networks, Mobile Computing, UX Design"
       ]
     },
-     {
+    {
       "degree": "Bachelor of Technology in Computer Science",
-      "institution": "Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering &Technology",
+      "institution": "VNR Vignana Jyothi Institute of Engineering & Technology",
       "start": "Aug 2019",
       "end": "June 2023",
       "details": [
@@ -22,13 +22,7 @@
   ],
   "certifications": [
     "Google Data Analytics Specialization (Coursera)",
-    "The Complete Web Development Bootcamp (Udemy)",
-    "Learn Python Programming Masterclass (Udemy)",
-    "HPCC Systems Digital Badge"
+    "HPCC Systems Workshop Digital Badge"
   ],
-  "learning": [
-    "Advanced Computer Networks",
-    "Data Science & Machine Learning",
-    "Distributed Operating System Principles"
-  ]
+  "learning": []
 }

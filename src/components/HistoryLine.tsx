@@ -103,11 +103,11 @@ export const HistoryLine: React.FC<HistoryLineProps> = ({
   return (
     <div className="mb-4" data-line>
       {entry.command && (
-        <div className="flex gap-2 mb-1">
-          <span style={{ color: currentTheme.colors.primary }}>$</span>
-          <span style={{ color: currentTheme.colors.text }}>{entry.command}</span>
+        <div className="flex gap-2 mb-1 flex-wrap sm:flex-nowrap">
+          <span style={{ color: currentTheme.colors.primary }} className="flex-shrink-0">$</span>
+          <span style={{ color: currentTheme.colors.text }} className="break-all">{entry.command}</span>
           <span
-            className="text-xs ml-auto"
+            className="text-xs ml-auto flex-shrink-0 hidden sm:inline"
             style={{ color: currentTheme.colors.textMuted }}
           >
             {entry.timestamp}
@@ -116,7 +116,7 @@ export const HistoryLine: React.FC<HistoryLineProps> = ({
       )}
       {entry.output && (
         <div
-          className={`ml-4 whitespace-pre-wrap ${highlightClass}`}
+          className={`ml-4 whitespace-pre-wrap break-words leading-relaxed ${highlightClass}`}
           style={{ color: getOutputColor() }}
         >
           {isLatest && !typingComplete ? (

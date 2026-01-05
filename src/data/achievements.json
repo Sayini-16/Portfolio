@@ -1,13 +1,15 @@
 {
   "achievements": [
-    "Published research paper: 'Automation of Profile Reporting System for Misogyny Identification' (IRJET)",
-    "Built AI content moderation system achieving 89.36% accuracy",
-    "Architected backend handling 100K+ daily API requests for 500K+ users",
-    "Boosted platform performance 40% through async processing and query optimization",
-    "Designed AWS infrastructure from scratch, cutting deployment time from hours to minutes",
-    "Built media pipeline processing 10K+ video uploads with S3/Lambda",
-    "Reduced production bugs 25% by introducing Playwright test automation",
-    "Google Data Analytics Professional Certification",
+    "Reduced API calls 35% with RxJS shareReplay across 100K+ daily requests",
+    "Secured authentication for 50K+ users with zero auth-related incidents",
+    "Built AWS Lambda + SQS pipeline enabling 10x faster bulk imports",
+    "Reduced manual staff effort by 40% with Django/DRF API automation",
+    "Automated 100% of post-payment onboarding via Stripe + DocuSeal",
+    "Cut incident triage time 50% with Sentry + AWS X-Ray tracing",
+    "Processed $10K+ in payments through timed assessment engine",
+    "Built AI classifier achieving 89.36% accuracy for content moderation",
+    "Published: 'Automation of Profile Reporting System for Misogyny Identification' (IRJET)",
+    "Google Data Analytics Specialization (Coursera)",
     "M.Sc. Computer Science at University of Florida (GPA: 3.66)"
   ]
 }

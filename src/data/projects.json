@@ -2,56 +2,43 @@
   "title": "Featured Projects",
   "projects": [
     {
-      "title": "The Censoror",
-      "description": "Automated data censorship tool using NLP and regex",
+      "title": "First Chair America",
+      "description": "Full-stack student registration platform with serverless AWS backend",
       "details": [
-        "Advanced regex patterns for PII detection",
-        "Configurable CLI for batch file processing",
-        "Automated compliance report generation"
+        "Processed 500+ registrations with Lambda APIs and DynamoDB single-table design",
+        "Reduced admin workload 60% with HMAC-signed auth and React + Chakra dashboards",
+        "Automated certificate generation with pdf-lib and S3/SES notifications"
       ],
-      "tech": "Python, Regex, NLP, CLI",
+      "tech": "React, AWS Lambda, DynamoDB, S3, Cognito, Amplify",
       "links": [
-        { "name": "GitHub", "url": "#" }
+        { "name": "Live", "url": "#" }
       ]
     },
     {
-      "title": "Misogyny Detection System",
-      "description": "AI-powered content moderation for social media",
+      "title": "National Scholastic Musician Awards",
+      "description": "Angular SPA with real-time assessments and payment processing",
       "details": [
-        "89.36% classification accuracy on multimedia content",
-        "Automated reporting system for flagged posts",
+        "Built app supporting 200+ concurrent users with lazy routes and AppSync GraphQL",
+        "Processed $10K+ in payments through timed assessment engine with Stripe",
+        "Implemented Cognito auth with real-time DataStore sync"
+      ],
+      "tech": "Angular, AWS Amplify, AppSync, GraphQL, Stripe, Cognito",
+      "links": [
+        { "name": "Live", "url": "#" }
+      ]
+    },
+    {
+      "title": "Multimedia Misogyny Detection",
+      "description": "AI-powered content moderation system for social media",
+      "details": [
+        "Built classifier achieving 89.36% accuracy for content moderation",
+        "Implemented data pipelines and model monitoring",
         "Published research paper in IRJET"
       ],
       "tech": "Python, NLP, Machine Learning, Computer Vision",
       "links": [
         { "name": "Paper", "url": "#" },
         { "name": "GitHub", "url": "#" }
-      ]
-    },
-    {
-      "title": "Toxic Comment Classifier",
-      "description": "ML-powered tool for detecting harmful online content",
-      "details": [
-        "92.73% accuracy in toxicity classification",
-        "User-friendly Tkinter GUI interface",
-        "Real-time comment analysis"
-      ],
-      "tech": "Python, Tkinter, scikit-learn, NLP",
-      "links": [
-        { "name": "GitHub", "url": "#" }
-      ]
-    },
-    {
-      "title": "ScholarshipAuditions Platform",
-      "description": "Full-stack features for 500K+ user education platform",
-      "details": [
-        "Real-time messaging with Django Channels",
-        "Video upload pipeline with AWS S3/Lambda",
-        "Elasticsearch-powered student search"
-      ],
-      "tech": "Django, Angular, AWS, PostgreSQL, Redis",
-      "links": [
-        { "name": "Live", "url": "https://scholarshipauditions.com" }
       ]
     }
   ]
