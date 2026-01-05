@@ -31,7 +31,11 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef, hidden =
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Tab") {
+    if (e.key === "Enter") {
+      // Explicit Enter handling for mobile keyboards that don't trigger form submit
+      e.preventDefault();
+      runCommand(input);
+    } else if (e.key === "Tab") {
       e.preventDefault();
       handleTabComplete();
     } else if (e.key === "ArrowUp") {
@@ -79,12 +83,18 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ inputRef, hidden =
           <input
             ref={inputRef}
             type="text"
+            inputMode="text"
+            enterKeyHint="send"
             value={input}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             className="w-full bg-transparent outline-none terminal-input"
             style={{ color: currentTheme.colors.text }}
             autoFocus
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
           />
           {/* Block cursor positioned after text */}
           <span

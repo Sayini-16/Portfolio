@@ -60,7 +60,7 @@ const CommandButton: React.FC<{
   return (
     <motion.button
       onClick={onClick}
-      className="inline-block text-[11px] mr-2 mb-1 px-2 py-1 rounded border"
+      className="inline-block text-[10px] sm:text-[11px] mr-1.5 sm:mr-2 mb-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border touch-manipulation"
       style={{
         borderColor,
         color: textColor,
@@ -103,7 +103,7 @@ export const TerminalHeader: React.FC = () => {
       className="border-b backdrop-blur-sm"
     >
       {/* Main header row */}
-      <div className="px-3 py-3 flex items-center justify-between">
+      <div className="px-2 py-2 sm:px-3 sm:py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Traffic lights */}
           <div className="flex gap-2">
@@ -181,7 +181,7 @@ export const TerminalHeader: React.FC = () => {
 
       {/* Command bar */}
       <div
-        className="px-3 py-2 border-t overflow-x-auto whitespace-nowrap scrollbar-thin"
+        className="px-2 py-1.5 sm:px-3 sm:py-2 border-t overflow-x-auto whitespace-nowrap scrollbar-thin"
         style={{ borderColor: `${currentTheme.colors.border}80` }}
       >
         {commandKeys.map((ck) => (

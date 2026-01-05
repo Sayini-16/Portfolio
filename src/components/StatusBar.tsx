@@ -38,7 +38,7 @@ export const StatusBar: React.FC = () => {
 
   return (
     <div
-      className="text-xs px-3 py-2 flex justify-between items-center border-t backdrop-blur-sm"
+      className="text-xs px-2 py-1.5 sm:px-3 sm:py-2 flex justify-between items-center border-t backdrop-blur-sm"
       style={{
         backgroundColor: `${currentTheme.colors.bgSecondary}dd`,
         color: currentTheme.colors.textMuted,

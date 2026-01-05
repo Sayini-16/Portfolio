@@ -58,7 +58,7 @@ export const TerminalBody: React.FC = () => {
   return (
     <div
       ref={terminalRef}
-      className="flex-1 overflow-y-auto p-4 scroll-smooth"
+      className="flex-1 overflow-y-auto p-3 sm:p-4 scroll-smooth"
       onClick={() => {
         if (inputRef.current) {
           try {

@@ -137,7 +137,7 @@ function App() {
             anime={{ delay: 100 }}
           >
             <div
-              className="flex flex-col h-full w-full m-3 rounded-lg border border-white/10 shadow-xl"
+              className="flex flex-col h-full w-full m-2 sm:m-3 rounded-lg border border-white/10 shadow-xl"
               style={{ background: "rgba(0,0,0,0.35)" }}
             >
               <div className="sticky top-0 z-10">
